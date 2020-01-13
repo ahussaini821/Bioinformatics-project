@@ -1,0 +1,10 @@
+Kinase,Subcellular Location
+AKT1_HUMAN,Cytoplasm; Nucleus; Cell membrane; Nucleus;
+AKT2_HUMAN,Cytoplasm; Nucleus; Cell membrane; Peripheral membrane protein; Early endosome;
+AKT3_HUMAN,Nucleus; Cytoplasm; Membrane; Peripheral membrane protein; Membrane;
+MRCKA_HUMAN,Cytoplasm; Cell projection; lamellipodium; lamellipodium;
+MRCKB_HUMAN,Cytoplasm; Cell membrane; Cytoplasm; Cytoplasmic side; Peripheral membrane protein; Cell junction; Cell projection; lamellipodium; lamellipodium;
+MRCKG_HUMAN,Cytoplasm;
+CTRO_HUMAN,Cytoplasm;
+DMPK_HUMAN,Cytoplasm; Cytoplasmic side; Endoplasmic reticulum; Endoplasmic reticulum membrane; Single-pass type IV membrane protein; Cytoplasm; Cytoplasmic side; Nucleus; Nucleus outer membrane; Single-pass type IV membrane protein; Mitochondrion; Mitochondrion outer membrane; Single-pass type IV membrane protein; Sarcoplasmic reticulum; Sarcoplasmic reticulum membrane; Cell membrane; Cytoplasm; cytosol; sarcoplasm; Mitochondrion; Mitochondrion membrane; Mitochondrion; Mitochondrion membrane;
+GRK1_HUMAN,Lipid-anchor; Membrane; Cell projection; cilium; photoreceptor outer segment;
