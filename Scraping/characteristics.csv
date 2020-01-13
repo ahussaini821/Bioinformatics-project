@@ -1,0 +1,10 @@
+Kinase ID,Gene ID,Subcellular location
+AKT1_HUMAN,AKT1,Cytoplasm; Nucleus; Cell membrane; Nucleus;
+AKT2_HUMAN,AKT2,Cytoplasm; Nucleus; Cell membrane; Peripheral membrane protein; Early endosome;
+AKT3_HUMAN,AKT3,Nucleus; Cytoplasm; Membrane; Peripheral membrane protein; Membrane;
+MRCKA_HUMAN,CDC42BPA,Cytoplasm; Cell projection; lamellipodium; lamellipodium;
+MRCKB_HUMAN,CDC42BPB,Cytoplasm; Cell membrane; Cytoplasm; Cytoplasmic side; Peripheral membrane protein; Cell junction; Cell projection; lamellipodium; lamellipodium;
+MRCKG_HUMAN,CDC42BPG,Cytoplasm;
+CTRO_HUMAN,CIT,Cytoplasm;
+DMPK_HUMAN,DMPK,Cytoplasm; Cytoplasmic side; Endoplasmic reticulum; Endoplasmic reticulum membrane; Single-pass type IV membrane protein; Cytoplasm; Cytoplasmic side; Nucleus; Nucleus outer membrane; Single-pass type IV membrane protein; Mitochondrion; Mitochondrion outer membrane; Single-pass type IV membrane protein; Sarcoplasmic reticulum; Sarcoplasmic reticulum membrane; Cell membrane; Cytoplasm; cytosol; sarcoplasm; Mitochondrion; Mitochondrion membrane; Mitochondrion; Mitochondrion membrane;
+GRK1_HUMAN,GRK1,Lipid-anchor; Membrane; Cell projection; cilium; photoreceptor outer segment;
