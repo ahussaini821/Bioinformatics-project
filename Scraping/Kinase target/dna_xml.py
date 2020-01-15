@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 import urllib
 import urllib.request
 import pandas as pd
+import ensembl
+import re
 
 # Opening the URL from ensembl
 url = 'https://www.ebi.ac.uk/proteins/api/coordinates?offset=0&size=100&accession=P31749'
@@ -19,17 +21,35 @@ gene_id = gene_id_tag["ensembl_gene_id"]
 chromosome_tag = soup.find("genomicLocation")
 chromosome = chromosome_tag["chromosome"]
 chromosome_start = chromosome_tag["start"]
-print(chromosome_start)
+#print(chromosome_start)
+
+gene_id_tag = soup.find("gnCoordinate")
+gene_id = gene_id_tag["ensembl_gene_id"]
+
+position = ensembl.position(gene_id)
+if position[-2] == "-":
+    print("poo")
+    forward = False
+else:
+    forward = True
+    print("poo2")
+
+sequences_df = pd.read_csv("sequences.csv")
+dna_sequence = sequences_df.at[0,"DNA Sequence"]
 
 # This list is for later as for some reason some of the PTMs repeat
 # so this needs to be avoided
 begin_list = []
+phos_pos = []
+
+
 
 # Iterating through every instance of this tag in the XML
 for start in soup.find_all('ns2:begin'):
     # Getting the parent of this which is genomicLocation and then getting
     # the parent of that but only try and sometimes there is no parent for this
     # tag
+    phos_pos = 0
     begin_parent = start.parent
     try:
         mod_type = begin_parent.parent
@@ -47,9 +67,37 @@ for start in soup.find_all('ns2:begin'):
     else:
         continue
 
+
+
+
     # Making sure that it is a phosphorylation PTM and we are not getting a
     # repeat entry
     if "Phospho" in phos_text and start["position"] not in begin_list:
+        if not forward:
+            value = re.search(r":.*:.*:(.*):", position)
+            phos_pos = int(value.group(1)) - int(start["position"])
+
+        elif forward:
+            value = re.search(r":.*:.*:(.*):.*:", position)
+            phos_pos = int(value.group(1)) - int(start["position"])
+        codon = dna_sequence[phos_pos:phos_pos+3]
+        print(codon,location, start["position"], end["position"])
         begin_list.append(start["position"])
         df = df.append({"Location": location, "Chromosome": chromosome, "Start": start["position"], "End": end["position"]}, ignore_index = True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 print(df)
