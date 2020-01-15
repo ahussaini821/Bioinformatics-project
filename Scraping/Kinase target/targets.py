@@ -6,7 +6,7 @@ names = []
 df = pd.read_csv("test_list.csv")
 kinase_list = df["Kinase name"]
 # target_info = pd.DataFrame(columns=['Kinase', 'Target', 'Position', 'Residue'])
-target_info = pd.DataFrame(columns=['Kinase', 'Target', 'Position', 'Residue'])
+target_info = pd.DataFrame(columns=['Kinase', 'Phosphorylator', 'Position', 'Residue'])
 target_list = []
 
 for kinase in kinase_list:
@@ -54,7 +54,7 @@ for index,target in enumerate(target_list):
 
         for target_index,thing in enumerate(curr_targets_list):
 
-            target_info = target_info.append(({"Kinase": curr_kinase, "Target": thing, "Position": curr_pos, "Residue": curr_residue}), ignore_index=True)
+            target_info = target_info.append(({"Kinase": curr_kinase, "Phosphorylator": thing, "Position": curr_pos, "Residue": curr_residue}), ignore_index=True)
 
 print(target_info)
 target_info.to_csv("targets.csv", index=False)
