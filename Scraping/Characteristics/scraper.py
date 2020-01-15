@@ -42,7 +42,8 @@ def appender2(attribute, item_list, regex):
 
 
         for final_index,item_name in enumerate(item_names):
-
+            if item_name == "Protein kinase superfamily":
+                continue
             if final_index != (len(item_names)-1):
                 curr_names += item_name + '; '
             else:
