@@ -8,12 +8,15 @@ gene_names = genes_list["Gene names"]
 subcell_list = pd.read_csv("subcell2.csv")
 subcell_names = subcell_list["Subcellular Location"]
 
-characteristics = pd.DataFrame(columns=["Kinase ID", "Gene ID", "Subcellular location"])
+family_list = pd.read_csv("family2.csv")
+family_names = family_list["Family"]
+
+characteristics = pd.DataFrame(columns=["Kinase ID", "Gene ID", "Family", "Subcellular location"])
 
 for index,kinase in enumerate(kinase_names):
 
 
-    characteristics = characteristics.append({"Kinase ID": kinase, "Gene ID": gene_names[index], "Subcellular location": subcell_names[index]}, ignore_index=True)
+    characteristics = characteristics.append({"Kinase ID": kinase, "Gene ID": gene_names[index], "Family": family_names[index], "Subcellular location": subcell_names[index]}, ignore_index=True)
 
 print(characteristics)
 characteristics.to_csv("characteristics.csv", index=False)

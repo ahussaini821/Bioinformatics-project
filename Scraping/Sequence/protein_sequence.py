@@ -27,4 +27,4 @@ for index,sequence in enumerate(sequence_list):
     sequence_info = sequence_info.append({'Kinase': kinase_list[index], 'Protein sequence': seq[0]}, ignore_index=True)
 
 print(sequence_info)
-sequence_info.to_csv("sequence.csv", index=False)
+sequence_info.to_csv("protein_sequence.csv", index=False)
