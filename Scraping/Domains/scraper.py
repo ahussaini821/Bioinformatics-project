@@ -4,11 +4,18 @@ import re
 import pandas as pd
 
 def scrape(kinase, info):
+    done = False
     curr_locations = []
     url = 'https://www.uniprot.org/uniprot/?query=' + kinase + '&columns=' + info + '&format=tab'
-    request = urllib.request.urlopen(url)
+    while not done:
+        try:
+            request = urllib.request.urlopen(url)
+            page = request.read(200000)
+            done = True
 
-    page = request.read(200000)
+        except:
+            continue
+
     return page
 
 def appender(attribute, item_list, regex):
