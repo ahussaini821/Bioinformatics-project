@@ -1,0 +1,63 @@
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Welcome to the most extraordinary hotel in Boston Massachusetts">
+    <meta name="keywords" content="hotel,boston hotel,new england hotel">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Welcome to My App</title>
+    {% endif %}
+    <script src="protein.js"></script>
+  </head>
+  <body>
+
+    <header>
+      <nav id="navbar">
+        <div class="container">
+          <h1 class="logo"><a href="index.html">Phosphorylation and Kinase Inhibitors</a></h1>
+          <ul>
+            <li><a class="current" href="index.html">Home</a></li>
+            <li>
+              <div class="dropdown">
+                <button class="dropbtn">Search 
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                  <a href="#">Protein, Seqeunce or Reference Search</a>
+                  <a href="#">Site Search</a>
+                  <a href="#">Comparative Site Search</a>
+                </div>
+              </div> 
+            </li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Header CONTENT -->
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+    <!-- Header CONTENT -->
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <section id="home-info" class="bg-dark">
+      {% block form_section %}{% endblock %}
+    </section>
+    <!-- MAIN CONTENT -->
+
+    <!-- FOOTER -->
+    
+    <!-- /FOOTER -->
+  </body>
+</html>
