@@ -1,0 +1,19 @@
+####retrieving data
+#SELECT * FROM ex_table; ## selecting everything from tabel ex
+
+#SELECT ex_column, ex_another column FROM ex_table
+#WHERE ex_column="xxx" or ex_anoter="xxx"       ###geting two column that match "xxx"
+
+####using Contains
+#SELECT ex_column FROM Ex1_table WHERE ex_column LIKE "%PETER" ## the % means any caracter
+
+
+
+
+####joining tables
+##getting kinase name by sesarching alias name
+#SELECT kinase_name
+    FROM kinase_characteristics JOIN names
+    ON kinase_characteristics.gene_name = names.gene_name
+    WHERE alias LIKE "%XXXODK%";
+

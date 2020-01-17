@@ -1,0 +1,133 @@
+CREATE DATABASE kinase_database;
+
+USE kinase_database; #define database we want to work on
+
+CREATE TABLE Kinase_Characteristics ( #creating table
+   kinase_name VARCHAR(55) NOT NULL,  #defining column name and carachetristics, (not more than 45 char. and can NOT be NULL  )
+   gene_name VARCHAR(45) NOT NULL,
+   protein_structure TEXT,
+   protein_family VARCHAR(55) NOT NULL,
+   cell_location VARCHAR(45),
+   PRIMARY KEY (kinase_name), #define as primary key
+   UNIQUE (kinase_name), #define kinase_name as Unique
+   UNIQUE (gene_name)
+   )
+;
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/xxx.csv"
+    INTO TABLE KinaseCharacteristics
+        FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '\\'
+        LINES TERMINATED BY '\n' STARTING BY ''
+        IGNORE 1 LINES;
+;
+
+
+
+###creating table names
+CREATE TABLE names ( #creating table
+     #defining column name and characteristics, (not more than 45 char. and can NOT be NULL  )
+   gene_name VARCHAR(45) NOT NULL,
+   alias VARCHAR(40) NOT NULL,
+   )
+;
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/xxx.csv"
+    INTO TABLE names
+        FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '\\'
+        LINES TERMINATED BY '\n' STARTING BY ''
+        IGNORE 1 LINES;
+
+### adding foreign keys
+ALTER TABLE KinaseCharacteristics
+ADD FOREIGN KEY (kinase_name) REFERENCES names(gene_name);
+
+####table domains
+CREATE TABLE domains ( #creating table
+   kinase_name VARCHAR(45) NOT NULL,
+   domain VARCHAR(45) NOT NULL,
+   domain_location VARCHAR(45)
+   )
+;
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/xxx.csv"
+    INTO TABLE domains
+        FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '\\'
+        LINES TERMINATED BY '\n' STARTING BY ''
+        IGNORE 1 LINES;
+
+ALTER TABLE KinaseCharacteristics
+ADD FOREIGN KEY (kinase_name) REFERENCES domains(kinase_name);
+
+
+####table inhibitor
+CREATE TABLE inhibitor ( #creating table
+   inhibitor_name VARCHAR(45) NOT NULL,
+   chemical_structure VARCHAR(45) NOT NULL,
+   inhibitor_target VARCHAR(45)
+   )
+;
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/xxx.csv"
+    INTO TABLE inhibitor
+        FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '\\'
+        LINES TERMINATED BY '\n' STARTING BY ''
+        IGNORE 1 LINES;
+
+ALTER TABLE KinaseCharacteristics
+ADD FOREIGN KEY (kinase_name) REFERENCES inhibitor(inhibitor_target);
+
+
+
+####table kinase_target_function
+CREATE TABLE kinase_target_function ( #creating table
+   target_name VARCHAR(45) NOT NULL,
+   target_function VARCHAR(1000) NOT NULL,
+   PRIMARY KEY target_name,
+   UNIQUE (target_name),
+   )
+;
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/xxx.csv"
+    INTO TABLE kinase_target_function
+        FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '\\'
+        LINES TERMINATED BY '\n' STARTING BY ''
+        IGNORE 1 LINES;
+
+####3ALTER TABLE KinaseCharacteristics
+#######ADD FOREIGN KEY (kinase_name) REFERENCES inhibitor(inhibitor_target);
+
+
+####table kinase_target
+CREATE TABLE kinase_target ( #creating table
+   phosphorilator VARCHAR(45) NOT NULL,
+   target_name VARCHAR(45) NOT NULL,
+   target_residue VARCHAR(45) NOT NULL,
+   protein_residue VARCHAR(45),
+   chromossome INT NOT NULL,
+   chromo_start_position INT NOT NULL,
+   chromo_end_position INT NOT NULL,
+   neighbouring_sequence TEXT NOT NULL
+   )
+;
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/xxx.csv"
+    INTO TABLE kinase_target
+        FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '\\'
+        LINES TERMINATED BY '\n' STARTING BY ''
+        IGNORE 1 LINES;
+
+ALTER TABLE KinaseCharacteristics
+ADD FOREIGN KEY (kinase_name) REFERENCES kinase_target(target_name);
+
+ALTER TABLE kinase_target_function
+ADD FOREIGN KEY target_name REFERENCES kinase_target(target_name);
+
+
+
+
