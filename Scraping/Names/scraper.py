@@ -20,8 +20,8 @@ def scrape(kinase, info):
 
 def appender(attribute, item_list, regex):
     df = pd.read_csv("test_list.csv")
-    kinase_list = df["Kinase name"]
-    item_info = pd.DataFrame(columns=['Kinase', attribute])
+    kinase_list = df["Accession Code"]
+    item_info = pd.DataFrame(columns=['Accession code', attribute])
 
 
     for index,item in enumerate(item_list):
@@ -32,7 +32,7 @@ def appender(attribute, item_list, regex):
 
 
         for item_name in item_names:
-            item_info = item_info.append({'Kinase': kinase_list[index], attribute: item_name}, ignore_index=True)
+            item_info = item_info.append({'Accession code': kinase_list[index], attribute: item_name}, ignore_index=True)
     return item_info
 
 def appender2(attribute, item_list, regex):
