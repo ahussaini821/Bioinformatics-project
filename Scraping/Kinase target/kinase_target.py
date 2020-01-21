@@ -13,7 +13,7 @@ bases_list = []
 # Opening the URL from ensembl
 def phosphosite(kin_acc, kinase, target, accession, df):
     done = False
-
+    failed = False
     url = 'https://www.ebi.ac.uk/proteins/api/coordinates?offset=0&size=100&accession=' + accession
     fail_count = 0
     while not done:
@@ -25,11 +25,14 @@ def phosphosite(kin_acc, kinase, target, accession, df):
             fail_count += 1
             print("Failed connection (dna xml). Retrying...")
             if fail_count >= 10:
+                failed = True
                 done = True
                 print(url)
 
-            continue
 
+            continue
+    if failed:
+        return df
     soup = BeautifulSoup(page, 'xml')
 
 
@@ -52,11 +55,12 @@ def phosphosite(kin_acc, kinase, target, accession, df):
     gene_id = gene_id_tag["ensembl_gene_id"]
 
     position = ensembl.position(gene_id)
+    if not position:
+        return df
 
     if position[-2] == "-":
         forward = False
-    elif not position:
-        print(position)
+
     else:
         forward = True
 
@@ -139,7 +143,7 @@ def phosphosite(kin_acc, kinase, target, accession, df):
     return df
 
 df = pd.DataFrame(columns=["Kinase accession", "Target accession", "Location", "Chromosome", "Start", "End", "Phosphosite position"])
-subs = pd.read_csv("substrate_test.csv")
+subs = pd.read_csv("substrates.csv")
 accessions = subs["SUB_ACC_ID"]
 accessions2 = []
 kinase_list = subs["KINASE"]
@@ -163,5 +167,5 @@ for index,accession in enumerate(accessions):
 
 
 #print(df)
-df.to_csv("kinase target test2.csv", index = False)
+df.to_csv("kinase target final.csv", index = False)
 print("FINISHED FINISHED FINISHED FINISHED FINISHED FINISHED")
