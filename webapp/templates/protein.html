@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <ul class="nav nav-tabs nav-fill" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" href="#background"
+                          role="tab" data-toggle="tab">
+            Background
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#domains"
+                          role="tab" data-toggle="tab">
+            Domains
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#targets"
+                          role="tab" data-toggle="tab">
+            Targets
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#structure"
+                          role="tab" data-toggle="tab">
+            Structure
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#sequence"
+                          role="tab" data-toggle="tab">
+              Sequence
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#inhibitor"
+                          role="tab" data-toggle="tab">
+              Inhibitor
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#export"
+                          role="tab" data-toggle="tab">
+              Export
+            </a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade show active" id="background">
+        <h3>Background Info:</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              {% for th in hcharacteristics %}
+                <th scope="col">{{th}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in dcharacteristics %}
+            <tr>
+              <td>{{loop.index}}</td>
+              {% for td in row %}
+                <td>{{td}}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="domains">
+        <h3>Domains Info:</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              {% for th in hdomains %}
+                <th scope="col">{{th}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in ddomains %}
+            <tr>
+              <td>{{loop.index}}</td>
+              {% for td in row %}
+                <td>{{td}}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="targets">
+        <h3>Targets Info:</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              {% for th in htargets %}
+                <th scope="col">{{th}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in dtargets %}
+            <tr>
+              <td>{{loop.index}}</td>
+              {% for td in row %}
+                <td>{{td}}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="structure">
+        <h3>Structure Info:</h3>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="sequence">
+        <h3>Sequence Info:</h3>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="inhibitor">
+        <h3>Inhibitor Info:</h3>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="export">
+        <h3>Export Info:</h3>
+      </div>
+    </div>
+</div>
+{% endblock %}

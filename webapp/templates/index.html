@@ -1,48 +1,82 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="showcase">
-    <div class="container">
-      <div class="showcase-content">
-        <h1><span class="text-primary">Protein </span> kinases</h1>
-        <p 
-        class="lead">Protein kinases are a class of proteins that modify other proteins (or themselves) by chemically adding phosphoryl groups to them through a process called phosphorylation. Many proteins have locations along their length at which phosphorylation can occur – these are called phosphorylation sites or phosphosites.</p>
-
-        <div class="box bg-light">
-          <h3>human protein kinases</h3>
-          <p>Explore background information about human protein kinases and the sites they phosphorylate.</p>
-          <a class="btn" href="about.html">Explore</a>
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">PROTEIN KINASES</h1>
+        <p class="lead">Protein kinases are a class of proteins that modify other proteins (or themselves) by chemically 
+            adding phosphoryl groups to them through a process called phosphorylation. 
+            Many proteins have locations along their length at which phosphorylation can occur – 
+            these are called phosphorylation sites or phosphosites.
+        </p>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2><span>Kinase or Protein Search</span></h2>
+                        <p>Explore background information about human protein kinases and the sites they phosphorylate.</p>
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="input-group mb-3">
+                                    <select class="custom-select" id="inputGroupSelect02">
+                                      <option selected value="1">Protein Name</option>
+                                      <option value="2">Kinase Name</option>
+                                      <option value="3">Gene Name</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-7">
+                                <form id="search" action="{{ url_for('searchResults') }}" method="POST">
+                                    <div class="input-group mb-3">
+                                        <input name="searchString" type="text" class="form-control" placeholder="Protein Name" aria-label="Protein Name" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Explore</a> -->
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2><span>Kinase Activity Analysis</span></h2>
+                        <p>Find level of activity of each human kinase using your own experimental datasets.</p>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-input" id="inputGroupFile">
+                                      <label class="custom-file-label text-left" for="inputGroupFile">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                      <!-- <button class="btn btn-outline-secondary" type="button">Upload</button> -->
+                                      <a class="btn btn-outline-secondary" href="{{ url_for('kActivityAnalysis') }}" role="button">Upload</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Start here</a> -->
+            </div>
         </div>
-        <div class="box bg-primary">
-            <h3>Activity</h3>
-            <p>Find level of activity of each human kinase using your own experimental datasets.</p>
-            <a class="btn" href="about.html">Start Here</a>
-        </div>
-        <div class="clr"></div>
-      </div>
     </div>
-  </div>
-{% endblock %}
-
-{% block form_section %}
-    <div class="info-img" style="background:url(/static/home.jpg) center / cover no-repeat;"></div>
-    <div class="info-content">
-      <h2><span class="text-primary">Kinase</span> or Phosphorylation Search</h2>
-      <form id="contact-form" class="form-inline">
-
-        <div class="select-box">
-          <label for="select-box1" class="label select-box1"><span class="label-desc">Choose Options</span> </label>
-          <select id="select-box1" class="select">
-            <option value="Choice 1">Kinase Name</option>
-            <option value="Choice 2">Substrate of</option>
-          </select>
+    <div class="row">
+        <div class="col-4">
+            <img src="../static/img/Tyrosine_kinase.gif" alt="3D view of Tyrosine_kinase">
         </div>
-				
-				<div class="form-group mx-sm-3 mb-2">
-					<label for="protein" class="sr-only">Protein</label>
-					<input type="text" class="form-control" id="protein" placeholder="Protein">
-				</div>
-				<button type="submit" class="btn btn-primary mb-2">Search</button>
-			</form>
+        <div class="col-4">
+            <img src="../static/img/Tyrosine_kinase.gif" alt="3D view of Tyrosine_kinase">
+        </div>
+        <div class="col-4">
+            <img src="../static/img/Tyrosine_kinase.gif" alt="3D view of Tyrosine_kinase">
+        </div>
     </div>
+</div>
+
 {% endblock %}

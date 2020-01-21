@@ -28,6 +28,6 @@ genes_info2 = scraper.appender("Gene names", genes_list, r"[A-Z0-9]{2,}")
 #     for gene_name in gene_names:
 #         genes_info = genes_info.append({'Kinase': kinase_list[index], 'Gene names': gene_name}, ignore_index=True)
 
-#print(genes_info)
+print(genes_info2)
 genes_info.to_csv("genes_single.csv", index=False)
 genes_info2.to_csv("genes.csv", index=False)

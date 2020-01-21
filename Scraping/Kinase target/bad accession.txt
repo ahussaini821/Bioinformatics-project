@@ -1,0 +1,1 @@
+https://www.ebi.ac.uk/proteins/api/coordinates?offset=0&size=100&accession=O60504_VAR_055019
