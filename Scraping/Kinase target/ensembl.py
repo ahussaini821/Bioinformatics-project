@@ -95,6 +95,7 @@ def position(id):
     server = "https://rest.ensembl.org"
     ext = "/sequence/id/" + id + "?type=genomic"
     fail_count = 0
+    failed = False
     while not done:
         try:
             r = requests.get(server+ext, headers={ "Content-Type" : "text/x-fasta"})
@@ -104,12 +105,13 @@ def position(id):
             print("Failed connection (ensembl). Retrying...")
             if fail_count >= 10:
                 print("This ID failed for position: ", id)
+                failed = True
                 done = True
             continue
-
+    if failed:
+        return False
     if not r.ok:
-      r.raise_for_status()
-      sys.exit()
+      return False
 
     sequence = r.text
     first_line_list = []
