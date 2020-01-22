@@ -7,6 +7,8 @@ def scrape(kinase, info):
     done = False
     curr_locations = []
     url = 'https://www.uniprot.org/uniprot/?query=' + kinase + '&columns=' + info + '&format=tab'
+    fail_count = 0
+    failed = False
     while not done:
         try:
             request = urllib.request.urlopen(url)
@@ -14,13 +16,19 @@ def scrape(kinase, info):
             done = True
 
         except:
+            fail_count += 1
+            if fail_count >= 10:
+                done = True
+                failed = True
             continue
+    if failed:
+        return False
 
     return page
 
 def appender(attribute, item_list, regex):
-    df = pd.read_csv("test_list.csv")
-    kinase_list = df["Kinase name"]
+    df = pd.read_csv("kinase_list.csv")
+    kinase_list = df["Accession name"]
     item_info = pd.DataFrame(columns=['Kinase', attribute])
 
 
@@ -36,8 +44,8 @@ def appender(attribute, item_list, regex):
     return item_info
 
 def appender2(attribute, item_list, regex):
-    df = pd.read_csv("test_list.csv")
-    kinase_list = df["Kinase name"]
+    df = pd.read_csv("kinase_list.csv")
+    kinase_list = df["Accession Code"]
     item_info = pd.DataFrame(columns=['Kinase', attribute])
     curr_names = ''
 
@@ -63,8 +71,8 @@ def appender2(attribute, item_list, regex):
 
 
 def appender_onlyfirst(attribute, item_list, regex):
-    df = pd.read_csv("test_list.csv")
-    kinase_list = df["Kinase name"]
+    df = pd.read_csv("kinase_list.csv")
+    kinase_list = df["Accession name"]
     item_info = pd.DataFrame(columns=['Kinase', attribute])
     curr_names = ''
 

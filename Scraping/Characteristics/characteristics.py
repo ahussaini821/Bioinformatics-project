@@ -1,22 +1,22 @@
 import pandas as pd
-kinase_list = pd.read_csv("test_list.csv")
-kinase_names = kinase_list["Kinase name"]
+kinase_list = pd.read_csv("kinase_list.csv")
+kinase_names = kinase_list["Accession Code"]
 
-genes_list = pd.read_csv("genes_single.csv")
-gene_names = genes_list["Gene names"]
 
-subcell_list = pd.read_csv("subcell2.csv")
+
+
+subcell_list = pd.read_csv("subcell_final.csv")
 subcell_names = subcell_list["Subcellular Location"]
 
-family_list = pd.read_csv("family2.csv")
+family_list = pd.read_csv("family_final.csv")
 family_names = family_list["Family"]
 
-characteristics = pd.DataFrame(columns=["Kinase ID", "Gene ID", "Family", "Subcellular location"])
+characteristics = pd.DataFrame(columns=["Kinase Accession", "Family", "Subcellular location"])
 
 for index,kinase in enumerate(kinase_names):
 
 
-    characteristics = characteristics.append({"Kinase ID": kinase, "Gene ID": gene_names[index], "Family": family_names[index], "Subcellular location": subcell_names[index]}, ignore_index=True)
+    characteristics = characteristics.append({"Kinase Accession": kinase, "Family": family_names[index], "Subcellular location": subcell_names[index]}, ignore_index=True)
 
 print(characteristics)
-characteristics.to_csv("characteristics.csv", index=False)
+characteristics.to_csv("characteristics_final.csv", index=False)

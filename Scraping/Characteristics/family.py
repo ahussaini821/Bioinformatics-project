@@ -3,17 +3,19 @@ import pandas as pd
 import re
 
 names = []
-df = pd.read_csv("test_list.csv")
+df = pd.read_csv("kinase_list.csv")
 kinase_list = df["Kinase name"]
 family_info = pd.DataFrame(columns=['Kinase', 'Family'])
 family_list = []
 
 for kinase in kinase_list:
-
-    family_list.append(scraper.scrape(kinase, "families"))
+    x = scraper.scrape(kinase, "families")
+    if not x:
+        continue
+    family_list.append(x)
 
 #print(family_list[0])
 
 family_info = scraper.appender2("Family", family_list, r"[A-Z][\sa-zA-Z\/]*family")
 print(family_info)
-family_info.to_csv("family2.csv", index=False)
+family_info.to_csv("family_final.csv", index=False)
