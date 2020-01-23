@@ -1,0 +1,20 @@
+/* Main Container
+-------------------------------------------------- */
+#main-container {
+  margin-top: 28px;
+  margin-bottom: 28px;
+  min-height: calc(100% - 182px);
+  
+}
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+.app-footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    min-height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+  }
+  
