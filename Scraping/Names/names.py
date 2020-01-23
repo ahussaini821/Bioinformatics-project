@@ -39,6 +39,9 @@ for accession in accessions:
 
     for start in soup.find_all('fullName'):
         alternate_names_list.append(start.get_text())
+    for start in soup.find_all('shortName'):
+        print("poo")
+        alternate_names_list.append(start.get_text())
 
     alternate_names = '; '.join(alternate_names_list)
 
@@ -88,6 +91,9 @@ for accession in accessions:
 
     for start in soup.find_all('fullName'):
         alternate_names_list.append(start.get_text())
+    for start in soup.find_all('shortName'):
+        print("poo")
+        alternate_names_list.append(start.get_text())
 
     alternate_names = '; '.join(alternate_names_list)
 
@@ -107,4 +113,4 @@ for accession in accessions:
     names_info2 = names_info2.append({"Accession": accession, "Main protein name": mainname, "Other protein names": alternate_names, "Main gene name": main_gene, "Other gene names": alternate_genes}, ignore_index = True)
 frames = [names_info, names_info2]
 result = pd.concat(frames)
-result.to_csv("names_final.csv", index=False)
+result.to_csv("names_FINAL.csv", index=False)

@@ -23,12 +23,12 @@ def clean_isoforms():
         if "-" in row["Main protein name"]:
             df.drop(index, inplace=True)
 
-    df.to_csv("test.csv", index=False)
+    df.to_csv("names_final.csv", index=False)
 
 
 # cleaningduplicates("characteristics_final.csv", "characteristics_final.csv")
 # cleaningduplicates("domains_final.csv", "domains_final.csv")
 # cleaningduplicates("kinase target final.csv", "kinase target final.csv")
-# cleaningduplicates("names_final.csv", "names_final.csv")
+cleaningduplicates("names_final.csv", "names_final.csv")
 
 clean_isoforms()
