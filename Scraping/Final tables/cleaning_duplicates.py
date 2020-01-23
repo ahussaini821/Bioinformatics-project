@@ -15,7 +15,22 @@ def cleaningduplicates(file_path, output_filepath):
 # Write the results to a different file
     df.to_csv(output_filepath, index=False)
 
-cleaningduplicates("characteristics_final.csv", "characteristics_final.csv")
-cleaningduplicates("domains_final.csv", "domains_final.csv")
-cleaningduplicates("kinase target final.csv", "kinase target final.csv")
-cleaningduplicates("names_final.csv", "names_final.csv")
+def clean_isoforms():
+    df = pd.read_csv("names_final.csv")
+    # df["-" not in df['Main gene name']]
+
+
+    for index, row in df.iterrows():
+        if "-" in row["Main protein name"]:
+            print(row["Main protein name"])
+            df.drop(index, inplace=True)
+
+    df.to_csv("test.csv", index=False)
+
+
+# cleaningduplicates("characteristics_final.csv", "characteristics_final.csv")
+# cleaningduplicates("domains_final.csv", "domains_final.csv")
+# cleaningduplicates("kinase target final.csv", "kinase target final.csv")
+# cleaningduplicates("names_final.csv", "names_final.csv")
+
+clean_isoforms()
