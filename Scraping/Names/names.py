@@ -7,6 +7,7 @@ df = pd.read_csv("substrates.csv")
 accessions = df["SUB_ACC_ID"]
 names_info = pd.DataFrame()
 done_list = []
+
 for accession in accessions:
     if accession not in done_list:
         done_list.append(accession)
@@ -19,6 +20,7 @@ for accession in accessions:
 
     url = 'https://www.ebi.ac.uk/proteins/api/coordinates?offset=0&size=100&accession=' + accession
     failed = 0
+
     while not done:
         try:
             request = urllib.request.urlopen(url)
@@ -32,6 +34,7 @@ for accession in accessions:
                 print("This accession code failed: ", accession)
                 done = True
             continue
+
     if failed == 1:
         continue
     else:
@@ -46,6 +49,7 @@ for accession in accessions:
     alternate_names = '; '.join(alternate_names_list)
 
     mainname_tag = soup.find("name")
+
     try:
         mainname = mainname_tag.get_text()
     except:
@@ -111,6 +115,7 @@ for accession in accessions:
             alternate_genes_list.append(start.get_text())
     alternate_genes = '; '.join(alternate_genes_list)
     names_info2 = names_info2.append({"Accession": accession, "Main protein name": mainname, "Other protein names": alternate_names, "Main gene name": main_gene, "Other gene names": alternate_genes}, ignore_index = True)
+
 frames = [names_info, names_info2]
 result = pd.concat(frames)
 result.to_csv("names_FINAL.csv", index=False)

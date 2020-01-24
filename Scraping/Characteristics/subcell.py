@@ -37,25 +37,6 @@ for kinase in kinase_list:
     curr_locations = curr_locations[:-1]
     subcell_info = subcell_info.append({'Kinase Accession': kinase, 'Subcellular Location': curr_locations}, ignore_index=True)
 
-    # file_name = str(kinase) + '.txt'
-    # urllib.request.urlretrieve(url, file_name)
-    # kinase_info = open(file_name, "r")
-
-
-
-#single_kinase.write(str(test_list[0]))
-# for kinase in subcell_list:
-#     curr_locations = []
-#     thing = str(kinase)
-#     curr_list = thing.split('.')
-#
-#     for item in curr_list:
-#
-#         for location in locations_list:
-#             if location in item:
-#                 curr_locations.append(location)
-#
-#     for i in curr_locations:
-#         subcell_info = subcell_info.append({'Kinase': kinase, 'Subcellular Location': i}, ignore_index=True)
+    
 
 subcell_info.to_csv("subcell_final.csv", index=False)

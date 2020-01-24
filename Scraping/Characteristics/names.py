@@ -11,7 +11,7 @@ name_list = []
 for kinase in kinase_list:
 
     name_list.append(scraper.scrape(kinase, "protein%20names"))
-#print(name_list)
+
 
 
 name_info = scraper.appender("Other names", name_list, r"\\n(.*?)\s\(.*?\).*?")
@@ -29,8 +29,7 @@ for index,name in enumerate(name_list):
     other_names = other_names_match.findall(name_str)
 
     for i in other_names:
-        #print(i)
-        #print(kinase_list[index])
+        
         name_info = name_info.append({'Kinase': kinase_list[index], 'Other names': i}, ignore_index=True)
 
 print(name_info)

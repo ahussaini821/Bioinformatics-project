@@ -11,7 +11,7 @@ start_list = []
 end_list = []
 bases_list = []
 # Opening the URL from ensembl
-def phosphosite(kin_acc, kinase, target, accession, df):
+def phosphosite(kin_acc, kinase, target, accession, df, neighbouring_list):
     done = False
     failed = False
     url = 'https://www.ebi.ac.uk/proteins/api/coordinates?offset=0&size=100&accession=' + accession
@@ -49,7 +49,6 @@ def phosphosite(kin_acc, kinase, target, accession, df):
     chromosome_tag = soup.find("genomicLocation")
     chromosome = chromosome_tag["chromosome"]
     chromosome_start = chromosome_tag["start"]
-    #print(chromosome_start)
 
     gene_id_tag = soup.find("gnCoordinate")
     gene_id = gene_id_tag["ensembl_gene_id"]
@@ -64,22 +63,17 @@ def phosphosite(kin_acc, kinase, target, accession, df):
     else:
         forward = True
 
-
-
-
     # This list is for later as for some reason some of the PTMs repeat
     # so this needs to be avoided
     done_list = []
     phos_pos = 0
 
-
-
     # Iterating through every instance of this tag in the XML
-    for start in soup.find_all('ns2:begin'):
+    for index,start in enumerate(soup.find_all('ns2:begin')):
         # Getting the parent of this which is genomicLocation and then getting
         # the parent of that but only try and sometimes there is no parent for this
         # tag
-
+        neighbouring = neighbouring_list[index]
         begin_parent = start.parent
         try:
             mod_type = begin_parent.parent
@@ -138,12 +132,12 @@ def phosphosite(kin_acc, kinase, target, accession, df):
         else:
             continue
         location=str(location)
-        df = df.append({"Kinase accession": kin_acc, "Target accession": accession, "Location": resi+location, "Chromosome": chromosome, "Start": start["position"], "End": end["position"], "Phosphosite position": phos_pos}, ignore_index = True)
+        df = df.append({"Kinase accession": kin_acc, "Target accession": accession, "Location": resi+location, "Chromosome": chromosome, "Start": start["position"], "End": end["position"], "Phosphosite position": phos_pos, "Neighbouring amino acids": neighbouring}, ignore_index = True)
 
     return df
 
-df = pd.DataFrame(columns=["Kinase accession", "Target accession", "Location", "Chromosome", "Start", "End", "Phosphosite position"])
-subs = pd.read_csv("substrates.csv")
+df = pd.DataFrame(columns=["Kinase accession", "Target accession", "Location", "Chromosome", "Start", "End", "Phosphosite position", "Neighbouring amino acids"])
+subs = pd.read_csv("substrate_test.csv")
 accessions = subs["SUB_ACC_ID"]
 accessions2 = []
 kinase_list = subs["KINASE"]
@@ -151,6 +145,7 @@ kinase_accession = subs["KIN_ACC_ID"]
 target_list = subs["SUBSTRATE"]
 target_accession = subs["SUB_ACC_ID"]
 residue_list = subs["SUB_MOD_RSD"]
+neighbouring_list = subs["SITE_+/-7_AA"]
 
 bad_list = []
 done_list = []
@@ -158,14 +153,15 @@ for index,accession in enumerate(accessions):
     kinase = kinase_list[index]
     target = target_list[index]
     kin_acc = kinase_accession[index]
+    neighbouring = neighbouring_list[index]
 
     if accession not in done_list:
-        df = phosphosite(kin_acc, kinase, target, accession, df)
+        df = phosphosite(kin_acc, kinase, target, accession, df, neighbouring_list)
         done_list.append(accession)
     else:
         continue
 
 
 #print(df)
-df.to_csv("kinase target final.csv", index = False)
+df.to_csv("kinase target test.csv", index = False)
 print("FINISHED FINISHED FINISHED FINISHED FINISHED FINISHED")

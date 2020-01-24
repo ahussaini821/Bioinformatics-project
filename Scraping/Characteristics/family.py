@@ -14,7 +14,6 @@ for kinase in kinase_list:
         continue
     family_list.append(x)
 
-#print(family_list[0])
 
 family_info = scraper.appender2("Family", family_list, r"[A-Z][\sa-zA-Z\/]*family")
 print(family_info)
