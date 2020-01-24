@@ -19,6 +19,4 @@ for index, row in df.iterrows():
     if match == True:
         continue
 
-
-
 df2.to_csv("kinase target final2.csv", index=False)
