@@ -26,8 +26,8 @@ def clean_isoforms():
     df.to_csv("names_final.csv", index=False)
 
 
-# cleaningduplicates("characteristics_final.csv", "characteristics_final.csv")
-cleaningduplicates("domains_final2.csv", "domains_final.csv")
+cleaningduplicates("characteristics_final.csv", "characteristics_final.csv")
+# cleaningduplicates("domains_final2.csv", "domains_final.csv")
 # cleaningduplicates("kinase target final.csv", "kinase target final.csv")
 # cleaningduplicates("names_final.csv", "names_final.csv")
 

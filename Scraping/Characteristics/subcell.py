@@ -13,6 +13,8 @@ subcell_list = []
 subcell_info = pd.DataFrame(columns=['Kinase Accession', 'Subcellular Location'])
 
 for kinase in kinase_list:
+    kinase = kinase.lower()
+    print(kinase)
     curr_locations = ''
     done = False
     url = 'https://www.uniprot.org/uniprot/?query=' + kinase + '&columns=comment(SUBCELLULAR%20LOCATION)&format=tab'
@@ -37,6 +39,6 @@ for kinase in kinase_list:
     curr_locations = curr_locations[:-1]
     subcell_info = subcell_info.append({'Kinase Accession': kinase, 'Subcellular Location': curr_locations}, ignore_index=True)
 
-    
+
 
 subcell_info.to_csv("subcell_final.csv", index=False)

@@ -3,6 +3,7 @@ import pandas as pd
 kinase_list = pd.read_csv("kinase_list.csv")
 kinase_names = kinase_list["Accession Code"]
 
+
 subcell_list = pd.read_csv("subcell_final.csv")
 subcell_names = subcell_list["Subcellular Location"]
 
