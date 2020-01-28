@@ -1,0 +1,20 @@
+from bokeh.plotting import figure, output_file, show
+import pandas as pd
+
+df = pd.read_csv("az20.tsv")
+fold_change = list(df["AZ20_fold_change"])
+
+for index,i in enumerate(fold_change):
+    if i == '' or i == None:
+        fold_change[index] = 0
+sig = list(df["AZ20_p-value"])
+factors = ["a", "b", "c"]
+x = [50,40,65]
+
+output_file("categorical.html")
+
+p = figure(y_range=sig)
+
+p.circle(fold_change, sig, size=15, fill_color="orange", line_color="green", line_width=3)
+
+show(p)
