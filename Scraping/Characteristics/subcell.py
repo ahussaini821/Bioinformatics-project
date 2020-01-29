@@ -11,7 +11,12 @@ subcell_info = pd.DataFrame(columns=['Kinase Accession', 'Subcellular Location']
 subcell_list = []
 
 for kinase in kinase_list:
+
+    # Have to reinitialise the list for every kinase
     locations_list = list(poss_subcell["Alias"])
+
+    # Made lowercase because this avoids getting results for multiple proteins
+    # from uniprot
     kinase = kinase.lower()
     curr_locations = ''
     done = False
@@ -29,12 +34,15 @@ for kinase in kinase_list:
     thing = str(page)
     curr_list = thing.split('.')
 
+    # Checks if the item is in the possible subcell list, and if so, appends it
     for index,item in enumerate(curr_list):
         for index,location in enumerate(locations_list):
             if location in item:
+                # Need to remove subcell locations already done since there
+                # are repeats
                 locations_list.remove(location)
                 curr_locations += location + '; '
-
+    # Gets rid of last ;
     curr_locations = curr_locations[:-1]
     subcell_info = subcell_info.append({'Kinase Accession': kinase, 'Subcellular Location': curr_locations}, ignore_index=True)
 
