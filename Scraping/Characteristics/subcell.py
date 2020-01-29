@@ -11,7 +11,7 @@ subcell_info = pd.DataFrame(columns=['Kinase Accession', 'Subcellular Location']
 subcell_list = []
 
 for kinase in kinase_list:
-
+    locations_list = list(poss_subcell["Alias"])
     kinase = kinase.lower()
     curr_locations = ''
     done = False
@@ -30,11 +30,12 @@ for kinase in kinase_list:
     curr_list = thing.split('.')
 
     for index,item in enumerate(curr_list):
-        for location in locations_list:
+        for index,location in enumerate(locations_list):
             if location in item:
+                locations_list.remove(location)
                 curr_locations += location + '; '
 
     curr_locations = curr_locations[:-1]
     subcell_info = subcell_info.append({'Kinase Accession': kinase, 'Subcellular Location': curr_locations}, ignore_index=True)
 
-subcell_info.to_csv("subcell_final.csv", index=False)
+subcell_info.to_csv("subcell_final2.csv", index=False)
