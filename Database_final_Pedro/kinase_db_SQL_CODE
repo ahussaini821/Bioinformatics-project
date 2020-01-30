@@ -1,0 +1,150 @@
+CREATE DATABASE kinase_db; #creating database
+
+USE kinase_db # selecting which database we gonna be using
+
+#creating table with expected column and the expected type and length of the values
+CREATE TABLE domains (
+    ID INT NOT NULL AUTO_INCREMENT,
+    accession_number VARCHAR(10) NOT NULL,
+    domain VARCHAR(50) NOT NULL,
+    domain_position VARCHAR(15) NOT NULL,
+    PRIMARY KEY (ID))
+    ;
+
+#populating Table with .csv table created
+LOAD DATA
+    INFILE "/Users/pedromoreno/domains_final.csv"
+    INTO TABLE domains
+        FIELDS TERMINATED BY ',' ENCLOSED BY '' ESCAPED BY '\\'    ###defining the structure of how the tables are done
+        LINES TERMINATED BY '\n' STARTING BY ''
+        IGNORE 1 LINES    ###ignoring first line (header)
+        (accession_number,domain,domain_position);    ##defining the columns we need to populate
+
+
+CREATE TABLE Protein (
+    accession_number VARCHAR(10),
+    gene_name VARCHAR(15) NOT NULL,
+    protein_name VARCHAR (15) NOT NULL UNIQUE,
+    gene_alias VARCHAR(100),
+    protein_alias VARCHAR(500),
+    PRIMARY KEY (accession_number))
+    ;
+
+#populating Table with .csv table created
+LOAD DATA
+   INFILE "/Users/pedromoreno/names_final.csv"
+   INTO TABLE Protein
+     FIELDS TERMINATED BY ',' ENCLOSED BY '"' ESCAPED BY '\\'
+     LINES TERMINATED BY '\n' STARTING BY ''
+     IGNORE 1 LINES;
+
+CREATE TABLE kinase_targets (
+    ID INT NOT NULL AUTO_INCREMENT,
+    K_accession_number VARCHAR(10) NOT NULL,
+    T_accession_number VARCHAR(10) NOT NULL,
+    phosphosite VARCHAR(7) NOT NULL,
+    chromosome VARCHAR(20),
+    chro_start INT(10),
+    chro_end INT(10),
+    phosphosite_position INT(8),
+    neighbour_aa_seq VARCHAR(15),
+    PRIMARY KEY (ID))
+    ;
+
+LOAD DATA
+   INFILE "/Users/pedromoreno/kinase target final.csv"
+   INTO TABLE kinase_targets
+    FIELDS TERMINATED BY ',' ENCLOSED BY '"' ESCAPED BY '\\'
+    LINES TERMINATED BY '\n' STARTING BY ''
+    IGNORE 1 LINES
+    (K_accession_number, T_accession_number, phosphosite,chromosome,
+    chro_start,chro_end,phosphosite_position,neighbour_aa_seq);
+
+
+
+CREATE TABLE kinase_characteristics (
+    ID INT NOT NULL AUTO_INCREMENT,
+    accession_number VARCHAR(10) NOT NULL UNIQUE,
+    family VARCHAR(100) NOT NULL,
+    cell_location VARCHAR(500) NOT NULL,
+    PRIMARY KEY (ID))
+    ;
+
+LOAD DATA
+   INFILE "/Users/pedromoreno/characteristics_final.csv"
+   INTO TABLE kinase_characteristics
+    FIELDS TERMINATED BY ',' ENCLOSED BY '"' ESCAPED BY '\\'
+    LINES TERMINATED BY '\n' STARTING BY ''
+    IGNORE 1 LINES
+    (accession_number,family,cell_location);
+
+
+CREATE TABLE sequence (
+    accession_number VARCHAR(10),
+    DNA_sequence LONGTEXT NOT NULL,
+    protein_sequence LONGTEXT NOT NULL,
+    transcript_ID VARCHAR(45) NOT NULL,
+    PRIMARY KEY (accession_number))
+    ;
+
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/sequence_nodupes_noRNA.csv"
+    INTO TABLE sequence
+    FIELDS TERMINATED BY ',' ENCLOSED BY '"' ESCAPED BY '\\'
+    LINES TERMINATED BY '\n' STARTING BY ''
+    IGNORE 1 LINES
+    ;
+
+CREATE TABLE inhibitor_names (
+     ID INT,
+     Cnumber INT,
+     Alias VARCHAR(5873))
+     ;
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/Alias_final_pedro.csv"
+    INTO TABLE inhibitor_names
+    FIELDS TERMINATED BY ',' ENCLOSED BY '"' ESCAPED BY '\\'
+    LINES TERMINATED BY '\n' STARTING BY ''
+    IGNORE 1 LINES
+    ;
+############# find this file and load it with pandas to figure out what is going wrong (this is alias)
+CREATE TABLE kinase_inhibitors (
+     Cnumber INT NOT NULL,
+     inhibitor VARCHAR(50) NOT NULL,
+     Mol_formula VARCHAR(100) NOT NULL,
+     Mol_weigth TEXT,
+     target VARCHAR(100) NOT NULL,
+     other_targets VARCHAR(900),
+     Ref_1 TEXT,
+     Ref_2 TEXT,
+     Structure VARCHAR(200),
+     PRIMARY KEY (Cnumber))
+     ;
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/inhibitor_kinase_last"
+    INTO TABLE kinase_inhibitors
+    FIELDS TERMINATED BY ',' ENCLOSED BY '"' ESCAPED BY '\\'
+    LINES TERMINATED BY '\n' STARTING BY ''
+    IGNORE 1 LINES
+    ;
+
+CREATE TABLE Protein_function (
+    accession_number VARCHAR(10),
+    Uniprot_URL VARCHAR(400),
+    PRIMARY KEY (accession_number))
+    ;
+
+
+LOAD DATA
+    INFILE "/Users/pedromoreno/kinase_functions.csv"
+    INTO TABLE Protein_function
+    FIELDS TERMINATED BY ',' ENCLOSED BY '"' ESCAPED BY '\\'
+    LINES TERMINATED BY '\n' STARTING BY ''
+    IGNORE 1 LINES
+    ;
+
+
+
