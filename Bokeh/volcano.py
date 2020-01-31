@@ -61,11 +61,14 @@ output_file("categorical.html")
 p = figure(tools=TOOLS)
 
 # Plotting our points
-p.circle(non_x, non_y, size=5, fill_color="orange", line_color="green", line_width=1)
-p.circle(sig_x, sig_y, size=5, fill_color="blue", line_color="green", line_width=1)
+p.circle(non_x, non_y, size=5, fill_color="orange", line_color="green", line_width=1, legend_label="Minor fold change")
+p.circle(sig_x, sig_y, size=5, fill_color="blue", line_color="green", line_width=1, legend_label="Fold change > 100 or < 0.1")
+p.legend.location = "top_left"
+p.legend.click_policy="hide"
 
 # A horizontal line; anything above this line has a sig P-value < 0.05
 hline = Span(location=1.3, dimension='width', line_color='red', line_width=2, line_dash='dashed')
 p.renderers.extend([hline])
 
 show(p)
+print(p)
