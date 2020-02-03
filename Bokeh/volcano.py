@@ -7,7 +7,15 @@ print("start")
 
 
 
+
 df = pd.read_csv("az20.tsv", sep="\t")
+
+#keeping necessary columns
+df=df[["Substrate", "control_mean","AZ20_mean","AZ20_fold_change","AZ20_p-value"]]
+#removing rows with at least one column empty
+df = df.dropna(axis=0)
+
+
 fold_change = list(df["AZ20_fold_change"])
 sig_x = []
 sig_y = []
@@ -74,6 +82,8 @@ p.circle(non_x, non_y, size=5, fill_color="orange", line_color="green", line_wid
 p.circle(sig_x, sig_y, size=5, fill_color="blue", line_color="green", line_width=1, legend_label="Fold change > 100 or < 0.1")
 p.legend.location = "top_left"
 p.legend.click_policy="hide"
+p.xaxis.axis_label = 'Fold change(log10)'
+p.yaxis.axis_label = "p-value (log10)"
 
 # A horizontal line; anything above this line has a sig P-value < 0.05
 hline = Span(location=1.3, dimension='width', line_color='red', line_width=2, line_dash='dashed')
