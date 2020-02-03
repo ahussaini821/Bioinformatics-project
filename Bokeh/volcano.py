@@ -62,7 +62,14 @@ for index, i in enumerate(sig_y):
 
 for index, i in enumerate(non_y):
     non_y[index] = (math.log(i,10))*-1
+sig_x2 = []
+sig_y2 = []
+for index, value in enumerate(sig_x):
+    test = str(value)
+    if test != '0.0':
 
+        sig_x2.append(float(value))
+        sig_y2.append(float(value))
 
 output_file("categorical.html")
 
@@ -71,7 +78,7 @@ p = figure(tools=TOOLS)
 
 # Plotting our points
 p.circle(non_x, non_y, size=5, fill_color="orange", line_color="green", line_width=1, legend_label="Minor fold change")
-p.circle(sig_x, sig_y, size=5, fill_color="blue", line_color="green", line_width=1, legend_label="Fold change > 100 or < 0.1")
+p.circle(sig_x2, sig_y2, size=5, fill_color="blue", line_color="green", line_width=1, legend_label="Fold change > 100 or < 0.1")
 p.legend.location = "top_left"
 p.legend.click_policy="hide"
 
@@ -80,4 +87,3 @@ hline = Span(location=1.3, dimension='width', line_color='red', line_width=2, li
 p.renderers.extend([hline])
 
 show(p)
-print(p)
