@@ -1,31 +1,5 @@
 import requests, sys
 
-# def rna(id):
-#     done = False
-#     server = "https://rest.ensembl.org"
-#     ext = "/sequence/id/" + id + "?content-type=text/plain;mask_feature=1"
-#     while not done:
-#         try:
-#             r = requests.get(server+ext, headers={ "Content-Type" : "text/plain"})
-#             done = True
-#         except:
-#             continue
-#
-#
-#     if not r.ok:
-#       r.raise_for_status()
-#       sys.exit()
-#
-#     sequence = r.text
-#     #print(r.text)
-#     rna_list = []
-#     for base in sequence:
-#         if base.isupper():
-#             rna_list.append(base)
-#     for index,base in enumerate(rna_list):
-#         if base == "T":
-#             rna_list[index] = "U"
-#     return ''.join(rna_list)
 
 def rna(id):
     done = False
@@ -51,12 +25,11 @@ def rna(id):
 
 
     if not r.ok:
-      # r.raise_for_status()
-      # sys.exit()
+
       return "Failed on getting RNA sequence"
 
     sequence = r.text
-    #print(r.text)
+
     return sequence
 
 
@@ -82,12 +55,11 @@ def dna(id):
         return "Failed at getting DNA sequence"
 
     if not r.ok:
-      # r.raise_for_status()
-      # sys.exit()
+
       return "Failed at getting DNA sequence"
 
     sequence = r.text
-    #print(r.text)
+
     return sequence
 
 def position(id):
@@ -120,7 +92,4 @@ def position(id):
             first_line = ''.join(first_line_list)
             break
 
-
-
-    #print(r.text)
     return first_line

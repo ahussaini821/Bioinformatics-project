@@ -5,6 +5,8 @@ import math
 
 print("start")
 
+
+
 df = pd.read_csv("az20.tsv", sep="\t")
 fold_change = list(df["AZ20_fold_change"])
 sig_x = []
@@ -15,8 +17,11 @@ non_y = []
 # Iterating over rows in table and only getting values with a fold change above and below a certain threshold and putting them into their
 # own list, and putting the other values into their own lists
 for index, row in df.iterrows():
+    # Attempting to get rid of bad values from table; doesn't work as intended. Can probably be removed safely
     if row["AZ20_fold_change"] == "inf" or row["control_mean"] == 0 or row["AZ20_fold_change"] == 1 or row["AZ20_fold_change"] == "":
         continue
+
+    # Threshold check
     if row["AZ20_fold_change"] > 10 or row["AZ20_fold_change"] < 0.1:
 
         sig_x.append(row["AZ20_fold_change"])
@@ -29,14 +34,18 @@ for index, row in df.iterrows():
 for index,i in enumerate(sig_x):
     curr = i
 
+    # Can't get log of None values so these need to be taken care of
+    # Can probably be safely removed at this point thanks to earlier check
     if i == '' or i == None:
         sig_x[index] = 0
 
     if curr != 0:
         sig_x[index] = math.log(curr,10)
 
+# Same as above
 for index,i in enumerate(non_x):
     curr = i
+
 
     if i == '' or i == None:
         non_x[index] = 0

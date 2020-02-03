@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title>Kinview</title>
+  <script type="text/javascript" src="https://www.ncbi.nlm.nih.gov/projects/sviewer/js/sviewer.js"></script>
+  <script>
+    function loadSV(id) {
+      var svapp = SeqView.App.findAppByDivId("Kinview");
+      if (!svapp)
+        svapp = new SeqView.App("Kinview"):
+      params = 'id=' + id;
+      svapp.reload(params);
+    }
+  </script>
+</head>
+<body>
+  Select a chromosome from the list:<br/>
+
+  <select onchange="loadSV(event.target.value);">
+    <option value="">-</option>
+    <option value="NC_000001">Chromosome 1</option>
+    <option value="NC_000002">Chromosome 2</option>
+    <option value="NC_000003">Chromosome 3</option>
+    <option value="NC_000004">Chromosome 4</option>
+    <option value="NC_000005">Chromosome 5</option>
+    <option value="NC_000006">Chromosome 6</option>
+    <option value="NC_000007">Chromosome 7</option>
+    <option value="NC_000008">Chromosome 8</option>
+  </select>
+
+  <br/>
+  <div id="Kinview">
+
+  </div>
+</body>
+</html>
