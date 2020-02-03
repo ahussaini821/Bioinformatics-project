@@ -7,7 +7,9 @@ http://kinview-env.p3rqxnfk29.us-west-2.elasticbeanstalk.com/
 
 # To use the webapp on your local machine
 Python 3 must be installed to use the webapp on your local machine
+
 Clone the repository
+
 Open terminal and navigate to the directory where you cloned the repository
 
 Run the following commands:
