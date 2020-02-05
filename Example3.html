@@ -1,11 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html>
 <head>
   <title>NCBI Sequence Viewer - programmatic initialization</title>
-  <script type="text/javascript" src="https://www.ncbi.nlm.nih.gov/projects/sviewer/js/sviewer.js"></script>
+  <iframe id="iframe_xdbea" width="1500" height="1000" src="https://www.ncbi.nlm.nih.gov/projects/sviewer/embedded_iframe.html?iframe=iframe_xdbea&"</iframe>
   <script>
     function loadSV(id) {
-      var svapp = SeqView.App.findAppByDivId("Kinview");
+      var svapp = SeqView.App.findAppByiframeId("iframe_xdbea");
       if (!svapp)
         svapp = new SeqView.App("Kinview");
       params = 'id=' + id;
