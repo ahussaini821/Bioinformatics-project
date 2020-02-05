@@ -15,7 +15,7 @@ Open terminal and navigate to the directory where you cloned the repository
 Run the following commands:
 
 1. python3 -m venv venv
-2. venv/bin/activate
+2. . venv/bin/activate
 3. pip install -r requirements.txt
 4. flask run
 
