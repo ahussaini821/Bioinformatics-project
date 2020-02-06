@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">PROTEIN KINASES</h1>
+        <p class="lead">Protein kinases are a class of proteins that modify other proteins (or themselves) by chemically 
+            adding phosphoryl groups to them through a process called phosphorylation. 
+            Many proteins have locations along their length at which phosphorylation can occur – 
+            these are called phosphorylation sites or phosphosites.
+        </p>
+        <hr class="my-4">
+        <div class="row">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <h2><span>Kinase or Protein Search</span></h2>
+                        <p>Explore background information about human protein kinases and the sites they phosphorylate.</p>
+                        <div class="row">
+                            <div class="col">
+                                <form id="search" action="{{ url_for('searchResults') }}" method="POST">
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="input-group mb-3">
+                                                <select class="custom-select" name="selectSearchCategory">
+                                                    <option selected value="1">Protein Kinase Name</option>
+                                                    <option value="2">Gene Name</option>
+                                                    <option value="3">Inhibitor Name</option>
+                                                    <option value="4">Substrate Name</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="input-group mb-3">
+                                                <input name="searchString" type="text" class="form-control" placeholder="Name..." aria-label="Name..." aria-describedby="basic-addon2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h2><span>Kinase Activity Analysis</span></h2>
+                        <p>Find level of activity of each human kinase using your own experimental datasets.</p>
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-input" id="inputGroupFile">
+                                      <label class="custom-file-label text-left" for="inputGroupFile">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                      <a class="btn btn-outline-secondary" href="{{ url_for('kActivityAnalysis') }}" role="button">Upload</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card-deck">
+            <div class="card">
+                <img class="card-img-top" src="../static/img/Tyrosine_kinase.gif" alt="3D view of Tyrosine_kinase">
+                <div class="card-body">
+                    <p class="card-text">Tyrosine kinase (TK) transfers a phosphate group from ATP to tyrosine residues of proteins.</p>
+                    <a href="https://proteopedia.org/wiki/index.php/Tyrosine_kinase" target="_blank" class="card-link">Click here</a>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="../static/img/Growth_factor_receptor-bound_protein.gif" alt="3D view of Growth_factor_receptor-bound_protein">
+                <div class="card-body">
+                    <p class="card-text">Epidermal growth factor receptor tyrosine kinase to the activation of Ras and its downstream kinases.</p>
+                    <a href="https://proteopedia.org/wiki/index.php/Growth_factor_receptor-bound_protein" target="_blank" class="card-link">Click here</a>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img-top" src="../static/img/Serine__threonine_protein_kinase.gif" alt="3D view of Serine__threonine_protein_kinase">
+                <div class="card-body">
+                    <p class="card-text">Serine/threonine protein kinase 1.</p>
+                    <a href="https://proteopedia.org/wiki/index.php/Serine/threonine_protein_kinase" target="_blank" class="card-link">Click here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

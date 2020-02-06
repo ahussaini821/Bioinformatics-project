@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <ul class="nav nav-tabs nav-fill" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" href="#background"
+                          role="tab" data-toggle="tab">
+            Background
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#domains"
+                          role="tab" data-toggle="tab">
+            Domains
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#phosphosites"
+                          role="tab" data-toggle="tab">
+            Phosphosites
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#targets"
+                          role="tab" data-toggle="tab">
+            Targets
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#sequence"
+                          role="tab" data-toggle="tab">
+              Sequence
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#inhibitor"
+                          role="tab" data-toggle="tab">
+              Inhibitor
+            </a>
+        </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link" href="#export"
+                          role="tab" data-toggle="tab">
+              Export
+            </a>
+        </li> -->
+    </ul>
+
+    <!-- Tab panels -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade show active" id="background">
+        <div class="card">
+          <div class="card-header">
+            <h3>Background Info for '{{searchString}}'</h3>
+          </div>
+          <div class="card-body">
+            <div class="card">
+              <div class="card-body">
+                <table id="background-characteristic" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <!-- <th scope="col">#</th> -->
+                      <th scope="col">{{hcharacteristics[1]}}</th>
+                      <th scope="col">{{hcharacteristics[2]}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in dcharacteristics %}
+                    <tr>
+                      <!-- <td>{{loop.index}}</td> -->
+                      <td>{{row[1]}}</td>
+                      <td>{{row[2]}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <hr style="border: solid; border-radius: 4px; border-color: rgb(80, 80, 80);">
+            <div class="card">
+              <div class="card-body">
+                <table id="background-searchProtein" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <!-- <th scope="col">#</th> -->
+                      <th scope="col">{{hsearchProtein[2]}}</th>
+                      <th scope="col">{{hsearchProtein[3]}}</th>
+                      <th scope="col">{{hsearchProtein[4]}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in dsearchProtein %}
+                    <tr>
+                      <!-- <td>{{loop.index}}</td> -->
+                      <td>{{row[2]}}</td>
+                      <td>{{row[3]}}</td>
+                      <td>{{row[4]}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="domains">
+        <div class="card">
+          <div class="card-header">
+            <h3>Domains Info for '{{searchString}}'</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <!-- <th scope="col">#</th> -->
+                  <th scope="col">{{hdomains[1]}}</th>
+                  <th scope="col">{{hdomains[2]}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in ddomains %}
+                <tr>
+                  <!-- <td>{{loop.index}}</td> -->
+                  <td>{{row[1]}}</td>
+                  <td>{{row[2]}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="phosphosites">
+        <div class="card">
+          <div class="card-header">
+            <h3>Targets Info for '{{searchString}}'</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <!-- <th scope="col">#</th> -->
+                  <th scope="col">{{htargets[2]}}</th>
+                  <th scope="col">{{htargets[3]}}</th>
+                  <th scope="col">{{htargets[4]}}</th>
+                  <th scope="col">{{htargets[5]}}</th>
+                  <th scope="col">{{htargets[6]}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in dtargets %}
+                <tr>
+                  <!-- <td>{{loop.index}}</td> -->
+                  <td>{{row[2]}}</td>
+                  <td>{{row[3]}}</td>
+                  <td>{{row[4]}}</td>
+                  <td>{{row[5]}}</td>
+                  <td>{{row[6]}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="container">
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="targets">
+        <div class="card">
+          <div class="card-header">
+            <h3>Target Info for '{{searchString}}'</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <!-- <th scope="col">#</th> -->
+                  <th scope="col">{{htargetsKAccess[1]}}</th>
+                  <th scope="col">{{htargetsKAccess[2]}}</th>
+                  <th scope="col">{{htargetsKAccess[3]}}</th>
+                  <th scope="col">{{htargetsKAccess[4]}}</th>
+                  <th scope="col">{{htargetsKAccess[5]}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in dtargetsKAccess %}
+                <tr>
+                  <!-- <td>{{loop.index}}</td> -->
+                  <td>{{row[1]}}</td>
+                  <td>{{row[2]}}</td>
+                  <td>{{row[3]}}</td>
+                  <td>{{row[4]}}</td>
+                  <td>{{row[5]}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="sequence">
+        <div class="card">
+          <div class="card-header">
+            <h3>Sequence Info for '{{searchString}}'</h3>
+          </div>
+          <div class="card-body">
+            <p>
+              <!-- <a class="btn btn-outline-secondary" data-toggle="collapse" href="#dnaSequence" role="button" aria-expanded="false" aria-controls="DNASequence">
+                {{hsequence[1]}}
+              </a> -->
+              <a class="btn btn-outline-secondary" data-toggle="collapse" href="#proteinSequence" role="button" aria-expanded="false" aria-controls="ProteinSequence">
+                {{hsequence[2]}}
+              </a>
+              <!-- <a class="btn btn-outline-secondary" data-toggle="collapse" href="#rnaSequence" role="button" aria-expanded="false" aria-controls="RNASequence">
+                {{hsequence[3]}}
+              </a> -->
+            </p>
+            <div class="collapse" id="dnaSequence">
+              <div class="container">
+                <div class="row">
+                  <h5>DNA sequence - {{searchString}} </h5>
+                </div>
+                <div class="row">
+                  <div class="card card-body" style="max-height: 200px;overflow: auto;">
+                    {{dsequence[0][1]}}
+                  </div>
+                </div>
+                <div class="row" style="float: right; padding-top: 20px;">
+                  <button type="button" class="btn btn-outline-primary">Export</button>
+                </div>
+              </div>
+            </div>
+            <div class="collapse" id="proteinSequence">
+              <div class="container">
+                <div class="row">
+                  <h5>Protein sequence - {{searchString}} </h5>
+                </div>
+                <div class="row">
+                  <div class="card card-body" style="max-height: 200px;overflow: auto;">
+                    {{dsequence[0][2]}}
+                  </div>
+                </div>
+                <div class="row" style="float: right;  padding-top: 20px;">
+                  <a href="{{ url_for('sequenceDownload') }}" target="blank">
+                    <button id="exportProteinSequence" type="button" class="btn btn-outline-primary">Export</button>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="collapse" id="rnaSequence">
+              <div class="card card-body" style="max-height: 200px;overflow: auto;">
+                {{dsequence[0][3]}}
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="inhibitor">
+        <div class="card">
+          <div class="card-header">
+            <h3>Inhibitor Info for '{{searchString}}'</h3>
+          </div>
+          <div class="card-body">
+            
+          </div>
+        </div>
+      </div>
+      <!-- <div role="tabpanel" class="tab-pane fade" id="export">
+        <div class="card">
+          <div class="card-header">
+            <h3>Export Info for '{{searchString}}'</h3>
+          </div>
+          <div class="card-body">
+            
+          </div>
+        </div>
+      </div> -->
+    </div>
+</div>
+{% endblock %}

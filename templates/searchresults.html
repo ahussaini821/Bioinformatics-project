@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="container">
+    <h2>Showing matched results for '{{search}}'</h2>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">S. No.</th>
+            <!-- {% for th in header %}
+            <th scope="col">{{th}}</th>
+            {% endfor %} -->
+            <th scope="col">{{header[1]}}</th>
+            <th scope="col">{{header[2]}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td><a href="{{ url_for('protein') }}?searchString={{row[1]}}&accession={{row[0]}}">{{row[1]}}</a></td>
+            <td>{{row[2]}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+{% endblock %}
