@@ -2,7 +2,7 @@
 
 This is the repository for the kinase group project!
 
-# To use the webapp online:
+# To use the webapp online
 http://kinview-env.p3rqxnfk29.us-west-2.elasticbeanstalk.com/
 
 # To use the webapp on your local machine
