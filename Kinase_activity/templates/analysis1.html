@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+
+
+
+
+
+
+
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.4.0.min.js"></script>
+        <script type="text/javascript">
+
+        </script>
+
+
+
+
+  </head>
+
+  <style> table, th, td {
+  border: 1px solid black;
+}
+th, td {
+text-align: center;
+}
+  </style>
+  <body>
+  <h2> TITLE: something like Data analysis of inhibitor {{name}}</h2>
+
+  <h2>Volcano plot here okoko </h2>
+
+  {{ div2| safe }}
+  {{ script2 | safe}}
+
+  <h2> ANOTHER SUBTITLE, something like KINASES ACTIVITY </h2>
+
+  {{div|safe}}
+  {{ script|safe }}
+  <table style="width:100%">
+      <tr>
+          <th>Kinase</th>
+          <th>Z-score</th>
+          <th>p-value</th>
+      </tr>
+    <tbody>
+        {%     for index, row in kinase_table.iterrows() %}
+
+            <tr>
+                <td>{{row[0]}}</td>
+
+                <td>{{row[1]}}</td>
+
+                <td>{{row[2]}}</td>
+
+            </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+  <h2> Substrates with no matched kinases: {{amount}}</h2>
+
+
+
+
+  </body>
+  <h2>SIGNIFICANT KINASE ACTIVITY (p-value<0.05) </h2>
+  {{div1|safe}}
+  {{script1|safe }}
+
+
+</html>
