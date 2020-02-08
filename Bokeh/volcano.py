@@ -17,8 +17,6 @@ def volcano(file_name):
 
     sig = df[(df.iloc[:,3] > 10) | (df.iloc[:,3] < 0.1)]
     non_sig = df[(df.iloc[:,3] < 10) & (df.iloc[:,3] > 0.1)]
-    
-
 
     sig_x = list(sig.iloc[:,3])
     sig_y = list(sig.iloc[:,4])
@@ -36,6 +34,7 @@ def volcano(file_name):
             non_x[index] = math.log(value,10)
         except:
             pass
+
     for index,value in enumerate(non_y):
         non_y[index] = (math.log(value,10)) * -1
     for index,value in enumerate(sig_y):
@@ -43,18 +42,17 @@ def volcano(file_name):
 
     sig.iloc[:,1] = sig_x
     sig.iloc[:,2] = sig_y
-    sig=sig.replace([np.inf, -np.inf], np.nan)
+    sig = sig.replace([np.inf, -np.inf], np.nan)
     sig = sig.dropna(axis=0)
-    sig=sig.replace(0.000000, np.nan)
+    sig = sig.replace(0.000000, np.nan)
     sig = sig.dropna(axis=0)
 
     non_sig.iloc[:,1] = non_x
     non_sig.iloc[:,2] = non_y
-    non_sig=non_sig.replace([np.inf, -np.inf], np.nan)
+    non_sig = non_sig.replace([np.inf, -np.inf], np.nan)
     non_sig = non_sig.dropna(axis=0)
-    non_sig=non_sig.replace(0.000000, np.nan)
+    non_sig = non_sig.replace(0.000000, np.nan)
     non_sig = non_sig.dropna(axis=0)
-
 
     TOOLS="hover,crosshair,pan,wheel_zoom,zoom_in,zoom_out,box_zoom,undo,redo,reset,tap,save,box_select,poly_select,lasso_select,"
 
