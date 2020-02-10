@@ -1,3 +1,4 @@
+
 # TO run and see the plots just type in the terminal "python3 KSEA_analysis_finished.py"
 # "file_path" and "file_location" (in def example) need to be changed so it works on your computers
 # the file used for "File_location" is the kinase_substrate_POHSPHO and is also uploaded on git
@@ -5,19 +6,14 @@ from flask import Flask, render_template
 import pandas as pd
 import numpy as np
 import scipy.stats
-import statsmodels
-import statsmodels.stats.multitest
 import math
-import bokeh
-import bokeh.plotting
 from bokeh.plotting import figure
 from bokeh.embed import components
-from bokeh.models import ColumnDataSource, CDSView, GroupFilter, Span
-
-
+from bokeh.models import  Span
 
 #create flask application
 app = Flask(__name__)
+
 
 #creating volcanoplot
 def volcano(file_name):
@@ -76,7 +72,7 @@ def volcano(file_name):
 
     # Plotting our points
     p2.circle(non_sig.iloc[:, 1], non_sig.iloc[:, 2], size=5, fill_color="orange", line_color="green", line_width=1,
-             legend_label="Minor fold change")
+             legend_label="Fold change < 100 and > 0.1")
     p2.circle(sig.iloc[:, 1], sig.iloc[:, 2], size=5, fill_color="blue", line_color="green", line_width=1,
              legend_label="Fold change > 100 or < 0.1")
     p2.legend.location = "top_left"
@@ -141,29 +137,28 @@ def KSEA_analysis(file_to_analyze, File_location):
 
     #getting kinase and substrate that match the dataset
     #matching subtrates and residue of Phopshoite plus website with our dataset, adding the kinase
-    df= df.join(K_SUB[["KINASE", "SUBSTRATE", "SUB_MOD_RSD"]].set_index(["SUBSTRATE", "SUB_MOD_RSD"]),
-            on=["Substrates", "Location"])
+    df1 = df.join(K_SUB[["KINASE", "SUBSTRATE", "SUB_MOD_RSD"]].set_index(["SUBSTRATE", "SUB_MOD_RSD"]),
+                  on=["Substrates", "Location"])
     #matching GENE substrate and residue of Phopshoite plus website with our dataset, adding the kinase
-    df= df.join(K_SUB[["KINASE", "SUB_GENE", "SUB_MOD_RSD"]].set_index(["SUB_GENE", "SUB_MOD_RSD"]),
-            on=["Substrates", "Location"], rsuffix="_s")
+    df2 = df.join(K_SUB[["KINASE", "SUB_GENE", "SUB_MOD_RSD"]].set_index(["SUB_GENE", "SUB_MOD_RSD"]),
+                  on=["Substrates", "Location"])
+
+    df = pd.concat([df1, df2], axis=0)
+    df = df.drop_duplicates(keep="first", inplace=False)
 
     ##droping all rows that have not matched any kinase
-    df1 = df.dropna(subset=["KINASE","KINASE_s"], how="all", axis=0)
+    df1 = df.dropna(subset=["KINASE"], axis=0)
     #saving the rows that have not a Matcehd KINASE
     df_all_SUBSTRATES_NO_KINASE = pd.concat([df,df1]).drop_duplicates(keep=False)
-    df_all_SUBSTRATES_NO_KINASE= df_all_SUBSTRATES_NO_KINASE.drop("KINASE", axis=1)
-    df_all_SUBSTRATES_NO_KINASE = df_all_SUBSTRATES_NO_KINASE.drop("KINASE_s", axis=1)
-    ##making 1 column with kinase (using KINASE and KINASE_s) but prioritizing KINASE
-    df1["KINASES"]=df1["KINASE"]
-    df1["KINASES"]= np.where(df1["KINASES"].isnull(), df1["KINASE_s"], df1["KINASES"])
-    df1=df1.drop(["KINASE"], axis=1)
-    df1=df1.drop(["KINASE_s"], axis=1)
+    df_all_SUBSTRATES_NO_KINASE = df_all_SUBSTRATES_NO_KINASE.drop("KINASE",1)
+
+
 
     df1=df1.drop_duplicates(keep="first", inplace=False)
 
 
     #counting total number of phosphosite substrates identified from the experiment that annotate to the specified kinase
-    Grouping_kinases_count= df1.groupby("KINASES").size()
+    Grouping_kinases_count= df1.groupby("KINASE").size()
     #print Grouping_kinases_count
     #calculating the square root of each count
     sqrroot_all_kinases= np.sqrt(Grouping_kinases_count)
@@ -172,7 +167,7 @@ def KSEA_analysis(file_to_analyze, File_location):
     FC= np.log2(df1.iloc[: ,2])
     df1["log_FC"] = FC
 
-    FC_Kinases = df1.groupby("KINASES")[["log_FC"]].mean()
+    FC_Kinases = df1.groupby("KINASE")[["log_FC"]].mean()
 
     s_p= FC_Kinases - FC_log_mean
 
@@ -202,8 +197,8 @@ def KSEA_analysis(file_to_analyze, File_location):
 
 #Creating the two bar plots
 def bar_plot(z_score):
-    p1 = figure(x_range=z_score["KINASES"],title= " KSEA-based Protein activity", plot_width=1300)
-    p1.vbar(x=z_score["KINASES"], top=z_score["z_score"], width=0.9, color = "#ff1200")
+    p1 = figure(x_range=z_score["KINASE"],title= " KSEA-based Protein activity", plot_width=1300)
+    p1.vbar(x=z_score["KINASE"], top=z_score["z_score"], width=0.9, color = "#ff1200")
     p1.xaxis.major_label_orientation = math.pi/2
     p1.xaxis.axis_label = 'Kinases'
     p1.yaxis.axis_label = "Z-score"
@@ -211,9 +206,9 @@ def bar_plot(z_score):
     return (p1)
 def bar_plot1(z_score_sig):
     # creating barplot with only the significant z_scores
-    p = figure(x_range=z_score_sig["KINASES"], title="Protein activity of significant activity changes",
+    p = figure(x_range=z_score_sig["KINASE"], title="Protein activity of significant activity changes",
                plot_width=1000)
-    p.vbar(x=z_score_sig["KINASES"], top=z_score_sig["z_score"], width=0.5, color="#ff1200")
+    p.vbar(x=z_score_sig["KINASE"], top=z_score_sig["z_score"], width=0.5, color="#ff1200")
     p.xaxis.major_label_orientation = math.pi / 2
     p.xaxis.axis_label = 'Kinases'
     p.yaxis.axis_label = "Z-score"
@@ -223,11 +218,12 @@ def bar_plot1(z_score_sig):
 @app.route("/example")
 def example():
     file_path= "/Users/pedromoreno/Downloads/Ipatasertib.tsv"
-    file_location = "/Users/pedromoreno/Documents/Kinase_Substrate_Dataset"
+    file_location = "/Users/pedromoreno/Documents/Kinase_Substrate_Dataset.txt"
     # making the analysis
     KSEA_results= KSEA_analysis(file_path, file_location)
     name= KSEA_results.get("inhibitor_name")
     #Create the plots
+
     plot = bar_plot(KSEA_results.get("z_score"))
     plot1 = bar_plot1(KSEA_results.get("z_score_sig"))
     plot3 = volcano(file_path)
@@ -238,18 +234,17 @@ def example():
 
     kinase_table= KSEA_results.get("z_score")
 
-    #getting z_score values
+
 
     # Embed plot into HTML via Flask Render
     script, div = components(plot)
     script1, div1 = components(plot1)
     script2, div2 = components(plot3)
-    return render_template("analysis1.html", script=script, div=div, script1=script1, div1=div1, amount = amount,
+
+    return render_template("analysis.html", script=script, div=div, script1=script1, div1=div1, amount = amount,
                            name= name, kinase_table=kinase_table, Substrates_with_no_kinases = Substrates_with_no_kinases,
                            script2=script2, div2=div2)
 
 #start the web server
 if __name__ == "__main__":
     app.run(debug=True)
-
-
