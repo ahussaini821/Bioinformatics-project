@@ -1,6 +1,8 @@
-# Bioinformatics-project
+# Kinview
 
-This is the repository for the kinase group project!
+Kinview is a webapp dedicated to providing information about kinases, their inhibitors, kinase targets and the phosphposites on these kinase targets. The webapp has a number of features including the ability to analyse phosphoproteomics data and give informatin about kianse activity as a well a phosphosite genome browser.
+
+Instructions to use the webapp locally can be found below.
 
 # To use the webapp online
 http://kinview-env.p3rqxnfk29.us-west-2.elasticbeanstalk.com/
