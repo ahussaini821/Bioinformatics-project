@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade show active" id="background">
+    <div class="card">
+      <div class="card-header">
+        <h3>Background Info for substrate '{{searchString}}'</h3>
+      </div>
+
+<!-- Nav tabs -->
+<div class="container">
+  <ul class="nav nav-tabs nav-fill" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#BI" role="tab" data-toggle="tab">Background Information </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#PS">Phosphorylation Sites</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#GW">Protein Sequence</a>
+  </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane container active" id="BI">
+
+    <table id="background-searchProtein" class="table table-hover">
+      <thead>
+        <tr>
+          <!-- <th scope="col">#</th> -->
+          <th scope="col">{{hsearchProtein[2]}}</th>
+          <th scope="col">{{hsearchProtein[3]}}</th>
+          <th scope="col">{{hsearchProtein[4]}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in dsearchProtein %}
+        <tr>
+          <!-- <td>{{loop.index}}</td> -->
+          <td>{{row[2]}}</td>
+          <td>{{row[3]}}</td>
+          <td>{{row[4]}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+<div class="tab-pane container fade" id="PS">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <!-- <th scope="col">#</th> -->
+        <th scope="col">{{htargets[0]}}</th>
+        <th scope="col">{{htargets[2]}}</th>
+        <th scope="col">{{htargets[3]}}</th>
+        <th scope="col">{{htargets[4]}}</th>
+        <th scope="col">{{htargets[5]}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in dphosphosites %}
+      <tr>
+        <!-- <td>{{loop.index}}</td> -->
+        <td>{{row[0]}}</td>
+        <td>{{row[1]}}</td>
+        <td>{{row[2]}}</td>
+        <td>{{row[3]}}</td>
+        <td>{{row[4]}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="tab-pane container fade" id="GW">
+  <div class="container">
+
+
+
+
+            {{sequence}}
+
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+{% endblock content %}

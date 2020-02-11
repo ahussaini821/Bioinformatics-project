@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3>Detailed Info for '{{searchInhibitor}}'</h3>
+            </div>
+            <div class="card-body">
+                <table id="details-inhibitor" class="table table-hover">
+                    <thead>
+                      <tr>
+                        <!-- <th scope="col">#</th> -->
+                        <th scope="col">{{hinhibitor[1]}}</th>
+                        <th scope="col">{{hinhibitor[2]}}</th>
+                        <th scope="col">{{hinhibitor[3]}}</th>
+                        <th scope="col">{{hinhibitor[4]}}</th>
+                        <th scope="col">{{hinhibitor[5]}}</th>
+                        <th scope="col">{{hinhibitor[6]}}</th>
+                        <th scope="col">{{hinhibitor[7]}}</th>
+                        <th scope="col">{{hinhibitor[8]}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for row in dinhibitor %}
+                      <tr>
+                        <!-- <td>{{loop.index}}</td> -->
+                        <td>{{row[1]}}</td>
+                        <td>{{row[2]}}</td>
+                        <td>{{row[3]}}</td>
+                        <td>{{row[4]}}</td>
+                        <td>{{row[5]}}</td>
+                        <td>{{row[6]}}</td>
+                        <td>{{row[7]}}</td>
+                        <td>{{row[8]}}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Structure Image -->
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Structure Image of {{searchInhibitor}}</h5>
+                        </div>
+                        <img class="card-img-top" src="../static/img/inhibitors/{{structureImgName}}" alt="Card image cap">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
