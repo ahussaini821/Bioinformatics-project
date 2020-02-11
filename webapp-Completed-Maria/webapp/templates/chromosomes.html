@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="btn-group dropright">
+    <button class="btn btn-secondary btn-lg" type="button" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        Select a chromosome
+    </button>
+    <button type="button" class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <div class="dropdown-menu" style="max-height: 400px; overflow: auto;">
+        {% for item in chromosomes %}
+        <a class="dropdown-item" href="{{ url_for('genomeDetails') }}?chromosome={{item}}" target="_blank">{{item}}</a>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- {% for item in chromosomes %}
+        <div class="card" style="width: 12rem; text-align: center;">
+            <div class="card-body">
+                <p class="card-text">{{item}}</p>
+                <a href="{{ url_for('genomeDetails') }}?chromosome={{item}}" target="_blank" class="card-link">View Details</a>
+            </div>
+        </div>
+        {% endfor %} -->
+
+<!-- <a class="btn btn-outline-secondary" href="{{ url_for('index') }}" role="button">Home</a> -->
+{% endblock %}
