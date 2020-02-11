@@ -5,11 +5,11 @@
 from flask import Flask, render_template
 import pandas as pd
 import numpy as np
-import scipy.stats
+from scipy import stats
 import math
 from bokeh.plotting import figure
 from bokeh.embed import components
-from bokeh.models import  Span
+from bokeh.models import Span
 
 #create flask application
 app = Flask(__name__)
@@ -178,15 +178,20 @@ def KSEA_analysis(file_to_analyze, File_location):
     z_score = z_score.replace([np.inf, -np.inf], np.nan)
     z_score = z_score.dropna(axis=0)
     #print (z_score)
-
+    z_score["p_values"]= ""
     #calculating significance of z_score (p-value)
-    z_score["p_values"] = scipy.stats.norm.sf(abs(z_score["log_FC"]))*2
+    #z_score["p_values"] = stats.norm.sf(abs(z_score["log_FC"]))*2
+    
+    # z-score is normaly distributed with mean 0 and standard deviation 1. From this we can get the p-values
+    for index, value in z_score.iterrows():
+        z_score["p_values"][index] = normpdf(value["log_FC"], 0, 1)
+
 
     #z_score[z_score["p_values"] < 0.05].count()
     #renaming columns
     z_score.rename(columns={"log_FC":"z_score"}, inplace=True)
 
-    #z_score.to_csv("/Users/pedromoreno/Kinase_scores", index= False)
+
 
     z_score= z_score.sort_values(by = "z_score")
     # Just the significantly different z_scores
@@ -194,6 +199,15 @@ def KSEA_analysis(file_to_analyze, File_location):
     output = {'z_score': z_score, "z_score_sig" : z_score_sig, "df_all_SUBSTRATES_NO_KINASE" :df_all_SUBSTRATES_NO_KINASE,
               "inhibitor_name" : inhibitor_name}
     return output
+
+
+def normpdf(x, mean, sd):
+    print (type(x))
+
+    var = float(sd) ** 2.0
+    denom = (2.0 * math.pi * var) ** 0.5
+    num = math.exp(-((x) - (mean)) ** 2.0 / (2.0 * var))
+    return num / denom
 
 #Creating the two bar plots
 def bar_plot(z_score):
