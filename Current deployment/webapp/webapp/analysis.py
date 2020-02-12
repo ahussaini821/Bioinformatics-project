@@ -2,13 +2,6 @@
 # TO run and see the plots just type in the terminal "python3 KSEA_analysis_finished.py"
 # "file_path" and "file_location" (in def example) need to be changed so it works on your computers
 # the file used for "File_location" is the kinase_substrate_POHSPHO and is also uploaded on git
-from flask import Flask, render_template
-import pandas as pd
-import numpy as np
-import math
-from bokeh.plotting import figure
-from bokeh.embed import components
-from bokeh.models import Span
 import math
 from lib2to3.fixer_util import p2
 from math import pi
@@ -363,33 +356,3 @@ def bar_plot1(z_score_sig):
     p.yaxis.axis_label = "Z-score"
     #show(p)
     return (p)
-
-# @application.route("/example")
-# def example():
-#     file_path= "/Users/pedromoreno/Downloads/Ipatasertib.tsv"
-#     file_location = "/Users/pedromoreno/Documents/Kinase_Substrate_Dataset.txt"
-#     # making the analysis
-#     KSEA_results= KSEA_analysis(file_path, file_location)
-#     name= KSEA_results.get("inhibitor_name")
-#     #Create the plots
-#
-#     plot = bar_plot(KSEA_results.get("z_score"))
-#     plot1 = bar_plot1(KSEA_results.get("z_score_sig"))
-#     plot3 = volcano(file_path)
-#     #calculating how many susbstrates coul not match a kinase
-#     Substrates_with_no_kinases = KSEA_results.get("df_all_SUBSTRATES_NO_KINASE")
-#     amount = Substrates_with_no_kinases["control_mean"].count()
-#     #volcano plot
-#
-#     kinase_table= KSEA_results.get("z_score")
-#
-#
-#
-#     # Embed plot into HTML via Flask Render
-#     script, div = components(plot)
-#     script1, div1 = components(plot1)
-#     script2, div2 = components(plot3)
-#
-#     return render_template("results.html", script=script, div=div, script1=script1, div1=div1, amount = amount,
-#                            name= name, kinase_table=kinase_table, Substrates_with_no_kinases = Substrates_with_no_kinases,
-#                            script2=script2, div2=div2)

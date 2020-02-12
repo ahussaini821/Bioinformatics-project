@@ -206,7 +206,9 @@
               <a class="btn btn-outline-secondary" data-toggle="collapse" href="#proteinSequence" role="button" aria-expanded="false" aria-controls="ProteinSequence">
                 {{hsequence[2]}}
               </a>
-
+              <button style="float: right;" id="btnExport" type="button" onclick="CreatePDFfromHTML('sequence-data')" class="btn btn-outline-primary">
+                Export
+                </button>
             </p>
             <div class="collapse" id="dnaSequence">
               <div class="container">
@@ -234,9 +236,8 @@
                   </div>
                 </div>
                 <div class="row" style="float: right;  padding-top: 20px;">
-                  <a href="{{ url_for('sequenceDownload') }}" target="blank">
-                    <button id="exportProteinSequence" type="button" class="btn btn-outline-primary">Export</button>
-                  </a>
+
+
                 </div>
               </div>
             </div>
