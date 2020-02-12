@@ -9,9 +9,145 @@ import math
 from bokeh.plotting import figure
 from bokeh.embed import components
 from bokeh.models import Span
+import math
+from lib2to3.fixer_util import p2
+from math import pi
+import numpy as np
+import pandas as pd
+from bokeh.command.util import set_single_plot_width_height
+from bokeh.document import Document
+from bokeh.embed import components, file_html
+from bokeh.io import output_file, show
+from bokeh.layouts import column, gridplot
+from bokeh.models import (Circle, ColumnDataSource, Div, Grid, Line,
+                          LinearAxis, Plot, Range1d, Span)
+from bokeh.palettes import Category20c, GnBu3, OrRd3
+from bokeh.plotting import figure, output_file, show
+from bokeh.resources import INLINE
+from bokeh.sampledata.autompg import autompg
+from bokeh.transform import cumsum, jitter
+from bokeh.util.browser import view
+from bokeh.util.string import encode_utf8
 
 #create flask application
+def remove_empty(file_path):
+    df= pd.read_csv(file_path, sep='\t')
+    namelist=df.columns.values.tolist()
+    list_name=[]
+    #print(len(df))
+    for i in namelist:
+        if 'Unnamed'not in i:
+            if '\n'not in i:
+                list_name.append(i)
+    df1=df[list_name]#extract the column
+    temporary= pd.DataFrame()
+    temporary_name=[]
+    list_name2=list_name
+    list_name2.remove("Substrate")
+    list_name2.remove("control_mean")
+    list_name3=[]
+    temporary=df1
+    a=len(temporary)
+    #temporary.replace(to_replace=r'^\s*$',value=np.nan,regex=True,inplace=True)
+    Df=temporary.dropna()#remove empty
+    b=len(Df)
 
+
+
+
+    data1= Df.reset_index(drop=True)
+    rows1 = data1.shape[0]
+    p_value_005 = pd.DataFrame()
+    namelist=data1.columns.values.tolist()
+    list_name=[]
+    #print(len(df))
+    for i in namelist:
+        if 'Unnamed'not in i:
+            if '\n'not in i:
+                list_name.append(i)
+    name=0
+    for i in list_name:
+        if "value" in i:
+            name=i
+
+    for i in range (0, rows1):
+        if data1[name][i] > 0.05:
+            continue
+        else:
+            p_value_005 = pd.concat([p_value_005, data1.iloc[[i],:]], axis = 0, ignore_index = True)
+    c=len(p_value_005)
+
+
+
+
+    df1=p_value_005
+    rows2 = df1.shape[0]
+    fold_change_005_positive= pd.DataFrame()
+
+    namelist=data1.columns.values.tolist()
+    list_name=[]
+    #print(len(df))
+    for i in namelist:
+        if 'Unnamed'not in i:
+            if '\n'not in i:
+                list_name.append(i)
+    name=''
+    for i in list_name:
+        if 'fold_change' in i:
+            name=i
+    for i in range(0,rows2):
+        if df1[name][i] >1:
+            fold_change_005_positive= pd.concat([fold_change_005_positive, df1.iloc[[i],:]], axis = 0, ignore_index = True)
+        else:
+            pass
+    d=len(fold_change_005_positive)
+    liste=[a,b,c,d]
+    return liste
+
+def element(file_path):
+    #data
+    liste=remove_empty(file_path)
+    a=liste[0]
+    b=liste[1]
+    c=liste[2]
+    d=liste[3]
+    empty=a-b
+    p_more_005=b-c
+    flod_negative=c-d
+
+    #
+#bar
+
+    #
+    category1 = ['Significant fold change', 'Substrate (no empty)', 'All data']
+    category2 = ['Increased phosphorylation', "Decreased phosphorylation","P-value < 0.05","P-value > 0.05","Substrate (no empty)","Substrate (empty)"]
+
+    exports = {'Data' : category1,
+                'Increased phosphorylation':[d,0,0],
+                'Decreased phosphorylation':[flod_negative,0,0],
+            'P-value > 0.05':[0,p_more_005,0],
+                'P-value < 0.05':[0,c,0],
+                'Substrate (no empty)':[0,0,b],
+                'Substrate (empty)':[0,0,a]}
+
+    p2 = figure(y_range=category1, plot_height=350,plot_width=1000,x_range=(0, a+500), title="Upload data summary",
+                    toolbar_location=None)
+
+    p2.hbar_stack(category2, y='Data', height=0.9,color=["green","yellow","black","pink","red","blue"], source=ColumnDataSource(exports),legend_label=[x for x in category2])
+
+
+    p2.y_range.range_padding = 0.1
+    p2.ygrid.grid_line_color = None
+    p2.legend.location = "bottom_right"
+    p2.axis.minor_tick_line_color = None
+    p2.outline_line_color = None
+    #p2.legend.orientation = "horizontal"
+    p2.xaxis.axis_label = "Number of substrates"
+
+    #p = gridplot([[p1, p2]], toolbar_location=None)
+    script_yuting, div_yuting = components(p2)
+
+    return script_yuting, div_yuting
 
 
 #creating volcanoplot

@@ -6,13 +6,32 @@ from webapp.dataAccess import searchProtein, characteristics, domains, targets, 
 from webapp.dataAccess import get_characteristics, get_domains, get_targets, get_phosphosites, get_names, get_inhibitors, is_kinase, is_substrate
 from webapp.dataAccess import get_inhibitors_cnumber, get_inhibitors_info, divider, get_sequence
 from werkzeug.utils import secure_filename
-from webapp.analysis import KSEA_analysis, bar_plot, bar_plot1, volcano, normpdf
+from webapp.analysis import KSEA_analysis, bar_plot, bar_plot1, volcano, normpdf, remove_empty, element
 import pandas as pd
 import numpy as np
 import math
 from bokeh.plotting import figure
 from bokeh.embed import components
 from bokeh.models import Span
+import math
+from lib2to3.fixer_util import p2
+from math import pi
+import numpy as np
+import pandas as pd
+from bokeh.command.util import set_single_plot_width_height
+from bokeh.document import Document
+from bokeh.embed import components, file_html
+from bokeh.io import output_file, show
+from bokeh.layouts import column, gridplot
+from bokeh.models import (Circle, ColumnDataSource, Div, Grid, Line,
+                          LinearAxis, Plot, Range1d, Span)
+from bokeh.palettes import Category20c, GnBu3, OrRd3
+from bokeh.plotting import figure, output_file, show
+from bokeh.resources import INLINE
+from bokeh.sampledata.autompg import autompg
+from bokeh.transform import cumsum, jitter
+from bokeh.util.browser import view
+from bokeh.util.string import encode_utf8
 
 @application.route('/')
 
@@ -74,6 +93,13 @@ def results(filename):
 
     kinase_table= KSEA_results.get("z_score")
 
+    script_yuting, div_yuting=element(file_path)
+    #p = gridplot([[p1, p2]], toolbar_location=None)
+    # grab the static resources
+    js_resources = INLINE.render_js()
+    css_resources = INLINE.render_css()
+
+
 
 
     # Embed plot into HTML via Flask Render
@@ -81,20 +107,12 @@ def results(filename):
     script1, div1 = components(plot1)
     script2, div2 = components(plot3)
 
-    return render_template("results.html", script=script, div=div, script1=script1, div1=div1, amount = amount,
-                           name= name, kinase_table=kinase_table, Substrates_with_no_kinases = Substrates_with_no_kinases,
-                           script2=script2, div2=div2)
-# KSEA_results= KSEA_analysis(file_path, file_location)
-#
-# #Create the plots
-# plot = bar_plot(KSEA_results.get("z_score"))
-# plot1 = bar_plot1(KSEA_results.get("z_score_sig"))
-# #calculating how many susbstrates coul not match a kinase
-# ff = KSEA_results.get("df_all_SUBSTRATES_NO_KINASE")
-# amount = ff["control_mean"].count()
-# # Embed plot into HTML via Flask Render
-# script, div = components(plot)
-# script1, div1 = components(plot1)
+    return render_template("results.html",
+        plot_script=script_yuting,plot_div=div_yuting,js_resources=js_resources,css_resources=css_resources,
+
+
+        script=script, div=div, script1=script1, div1=div1, amount = amount,name= name, kinase_table=kinase_table, Substrates_with_no_kinases = Substrates_with_no_kinases,script2=script2, div2=div2)
+
     return render_template("results.html")
 
 
@@ -162,8 +180,7 @@ def kActivityAnalysis():
 @application.route('/protein')
 def protein():
     hdomains = ['Kinase accession code', 'Domain', 'Domain position']
-    print("---------------------------------------")
-    print(hdomains[1])
+
     hcharacteristics = ['Kinase Accession', 'Family', 'Subcellular location']
 
     htargets = ['Kinase accession', 'Target accession', 'Location', 'Chromosome', 'Start', 'End', 'Phosphosite position', 'Neighbouring amino sequences']
@@ -203,14 +220,7 @@ def protein():
     except:
         targetnames = [()]
 
-
-
-
-
     sequence = divider(dsequence[0][1])
-
-
-
 
     return render_template('protein.html', title='Protein Details', \
         hcharacteristics=hcharacteristics, dcharacteristics=dcharacteristics, \
@@ -274,8 +284,7 @@ def substrate():
 
 
     #hsequence, dsequence = sequence(accession)
-    print("---------------------------")
-    print(dphosphosites)
+
     sequence = dsequence[0][1]
     list_sequence = list(sequence)
     for i in dphosphosites:
