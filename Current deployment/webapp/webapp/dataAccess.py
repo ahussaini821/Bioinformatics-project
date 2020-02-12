@@ -1,33 +1,15 @@
+"""
+This file contains all the functions needed to retrieve data from the database
+through SQLite queries
+"""
+
 import pandas as pd
 import os
 import sqlite3
 from sqlite3 import Error
 
-#This switch tells us to read data from a csv source or mysql tables.
-iscsv = False
-
-#kinaselisttable is supposedly the name of the table which will contain kinase list data
-kinaselisttable = os.path.join(os.getcwd() , 'webapp/db/protein_final.csv') if iscsv else 'kinaselist'
-characteristicstable = os.path.join(os.getcwd() , 'webapp/db/kinase_characteristics_final.csv') if iscsv else 'characteristics'
-domainstable = os.path.join(os.getcwd() , 'webapp/db/domains_final.csv') if iscsv else 'domains'
-targetstable = os.path.join(os.getcwd() , 'webapp/db/kinase target final no na.csv') if iscsv else 'targets'
-sequencestable = os.path.join(os.getcwd() , 'webapp/db/sequences_final.csv') if iscsv else 'sequences'
-inhibitortable = os.path.join(os.getcwd() , 'webapp/db/kinase_inhibitors_final.csv') if iscsv else 'inhibitor'
-'''
-def return_row(tablename,filter)
-
-Function used to return data from database/csv files to populate the html pages. If iscsv is True it return data from
-csv files , else it returns data from actual table. The table related code needs to be developed once
-tables are created.
-
-tablename
-    this parameter contains actual table name or path of the csv file
-filter
-    filter is a list of length 2, where the first item will contain column name and second will be actual value
-    of the column on which filter needs to be applied. Holds good for csv files only currently
-'''
 def create_connection(db_file):
-    """ create a database connection to the SQLite database
+    """ Creates a database connection to the SQLite database
         specified by the db_file
     :param db_file: database file
     :return: Connection object or None
@@ -42,6 +24,8 @@ def create_connection(db_file):
 
     return conn
 
+# This is a small function which allows protein sequences to be divided into
+# blocks of 10
 def divider(string):
     split_string = []
     x = []
@@ -62,20 +46,13 @@ def divider(string):
 
     return(y)
 
-
-
-def return_row(tablename,filter=None):
-    #Read from csv files if it is csv otherwise read tables from database
-    if iscsv:
-        df = pd.read_csv(tablename)
-        if filter :
-            df_filtered = df[df[filter[0]].str.match(filter[1])]
-            Row_list = df_filtered.values.tolist()
-        else :
-            Row_list = df.values.tolist()
-        return (list(df.columns) , Row_list)
-    else :
-        pass
+"""
+The functions below retrive information from the database using a serach query
+which could be something such a protein accession or a search string entered
+by the user
+e.g. get_accession retrieves the accession of a protein or proteins based on a
+search query entered by a user
+"""
 def is_kinase(conn, accession):
     cur=conn.cursor()
     cur.execute("SELECT kinase_characteristics.accession_number FROM kinase_characteristics WHERE kinase_characteristics.accession_number = ?", (accession,))
@@ -93,7 +70,6 @@ def is_substrate(conn, accession):
         return False
     else:
         return True
-
 
 def get_accession(conn, priority):
 
@@ -163,12 +139,7 @@ def get_characteristics(conn, query):
     return rows
 
 def get_inhibitors(conn, query,query2):
-    """
-    Query tasks by priority
-    :param conn: the Connection object
-    :param priority:
-    :return:
-    """
+    
     cur = conn.cursor()
     cur.execute("SELECT kinase_inhibitors.inhibitor, kinase_inhibitors.Cnumber, kinase_inhibitors.Mol_weigth FROM kinase_inhibitors WHERE kinase_inhibitors.other_targets LIKE ? OR kinase_inhibitors.target = ?", (query2,query,))
 
@@ -193,36 +164,9 @@ def get_inhibitors_info(conn, query):
 
     return rows
 
-def search(option, name):
-	if option == 'Protein':
-		searchProtein(name)
-	if option == 'Kynase':
-		pass
-	if option == 'Protein':
-		pass
+def get_inhibitor_alias(conn, cnumber):
+    cur = conn.cursor()
+    cur.execute("SELECT inhibitor_names.Alias FROM inhibitor_names WHERE inhibitor_names.Cnumber = ?", (cnumber[0][0],))
+    rows = cur.fetchall()
 
-#kinase_list.csv
-def searchProtein(name):
-    return return_row(kinaselisttable , ['Main gene name',name])
-
-def characteristics(name):
-    return return_row(characteristicstable , ['Kinase Accession',name])
-
-def domains(name):
-    return return_row(domainstable , ['Kinase accession code',name])
-
-def targets(name):
-    return return_row(targetstable , ['Target accession',name])
-
-def targetsKAccession(name):
-    return return_row(targetstable , ['Kinase accession',name])
-
-def sequence(name):
-    return return_row(sequencestable , ['Accession',name])
-
-def inhibitor(name):
-
-    return return_row(inhibitortable , ['Inhibitor',name])
-
-
-#print(searchProtein("abc"))
+    return rows

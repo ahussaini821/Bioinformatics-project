@@ -1,0 +1,20 @@
+﻿target,other target
+TAK1,TrkA ; VEGFR1 ; MKK1 ; MKK2 ; MKK6 ; ERK8 ; PKD1 ; MNK1 ; MNK2 ; PRAK ; TAK1 ; IRAK4 ; RIPK2 ; Lck ; BRK ; EF2K ; 
+Src,p38 beta MAPK ; PAK4 ; PAK5 ; Src ; Lck ; CSK ; ROCK 2 ; PKC alpha  ; PKD1 ; CHK2 ; CK1 delta  ; MARK3 ; MELK ; MST2 ; p38 alpha MAPK ; 
+Src,MST2 ; Src ; Lck ; CSK ; PKA ; PKD1 ; ERK2 ; p38 alpha MAPK ; p38 beta MAPK ; MELK ; CK1 delta  ; 
+PKR,CK1 gamma 2 ; GCK ; MLK3 ; 
+Akt1,PKB alpha  ; PKB beta  ; PKA ; ROCK 2 ; PRK2 ; MSK1 ; DYRK1A ; DYRK3 ; PIM1 ; PIM2 ; PIM3 ; ERK1 ; ERK8 ; RSK1 ; RSK2 ; SGK1 ; S6K1 ; PKC alpha  ; PKD1 ; SmMLCK ; PHK ; GSK3 beta  ; CDK2-Cyclin A ; DYRK2 ; MST2 ; HIPK2 ; 
+AMPK Activator,PIM1 ; PIM2 ; PIM3 ; YES1 ; MEKK1 ; HER4 ; MKK2 ; RSK1 ; RSK2 ; PKB beta  ; MAPKAP-K3 ; PRAK ; CAMK1 ; SmMLCK ; NUAK1 ; DYRK3 ; NEK2a ; IKK epsilon  ; HIPK2 ; MST2 ; MST4 ; GCK ; MINK1 ; MLK1 ; MLK3 ; TAO1 ; Src ; BTK ; EPH-B2 ; VEGFR1 ; GSK3 beta  ; 
+ALK5,VEGFR1 ; p38 alpha MAPK ; PKD1 ; MINK1 ; RIPK2 ; FGF-R1 ; 
+activator ALPK1,
+activator ALPK1,
+PDGF,Aurora B ; 
+EGFR,IRAK4 ; RIPK2 ; Src ; HER4 ; VEGFR1 ; ERK2 ; p38 alpha MAPK ; p38 beta MAPK ; PKD1 ; MNK1 ; MNK2 ; SmMLCK ; PHK ; CHK2 ; DYRK2 ; DYRK3 ; PIM1 ; PIM3 ; MST2 ; Lck ; EPH-A2 ; YES1 ; BTK ; TBK1 ; NUAK1 ; MLK1 ; MINK1 ; Aurora A ; BRSK1 ; 
+"EGFR, JAK",SGK1 ; MSK1 ; DYRK1A ; PIM3 ; 
+Tyrosine-kinases,BTK ; ERK8 ; PKB beta  ; PRAK ; PHK ; GSK3 beta  ; CDK2-Cyclin A ; PLK1 ; MELK ; PIM1 ; PIM3 ; HIPK2 ; 
+Akt,SGK1 ; CAMK1 ; 
+"Akt1, Akt2",CAMK1 ; SmMLCK ; EF2K ; MKK1 ; PKB alpha  ; SGK1 ; MAPKAP-K2  ; NEK7 ; PIM1 ; PIM3 ; 
+"GSK3b, CDK5/p25, CDK1/cyclin B",BRSK2 ; PAK4 ; PAK5 ; IRR ; SYK ; YES1 ; TBK1 ; PHK ; CHK2 ; GSK3 beta  ; CDK2-Cyclin A ; 
+TBK1,JNK3 ; ERK8 ; RSK1 ; RSK2 ; PDK1 ; S6K1 ; PKA ; ROCK 2 ; PRK2 ; STK33 ; MSK1 ; MNK1 ; MNK2 ; CAMKK beta  ; CAMK1 ; PHK ; DAPK1 ; CHK1 ; CHK2 ; GSK3 beta  ; CDK2-Cyclin A ; Aurora A ; Aurora B ; TLK1 ; AMPK ; MARK1 ; MARK2 ; MARK3 ; MARK4 ; BRSK1 ; BRSK2 ; MELK ; NUAK1 ; TSSK1 ; CK2 ; DYRK1A ; DYRK2 ; DYRK3 ; NEK2a ; IKK epsilon  ; TBK1 ; EIF2AK3 ; HIPK1 ; HIPK2 ; HIPK3 ; CLK2 ; PAK2 ; PAK4 ; PAK5 ; PAK6 ; MLK1 ; MLK3 ; TESK1 ; TAK1 ; IRAK1 ; IRAK4 ; RIPK2 ; Src ; Lck ; CSK ; YES1 ; ABL ; BTK ; JAK2 ; SYK ; ZAP70 ; TIE2 ; BRK ; EPH-A2 ; EPH-A4 ; EPH-B1 ; EPH-B2 ; EPH-B3 ; EPH-B4 ; FGF-R1 ; HER4 ; IGF-1R ; IR ; IRR ; TrkA ; VEGFR1 ; MKK1 ; MKK2 ; GCK ; JNK1 ; JNK2 ; 
+NIK,MARK3 ; TSSK1 ; CK1 delta  ; TTBK1 ; TTBK2 ; HIPK1 ; PAK4 ; PAK5 ; PAK6 ; MAP4K3 ; MAP4K5 ; MINK1 ; MLK1 ; MLK3 ; TAO1 ; TAK1 ; MKK1 ; MKK2 ; JAK2 ; p38 gamma MAPK ; PKD1 ; SmMLCK ; CHK2 ; GSK3 beta  ; MARK1 ; MARK4 ; NUAK1 ; IKK epsilon  ; EIF2AK3 ; HIPK2 ; CLK2 ; GCK ; VEGFR1 ; 
+"TBK1, IKKe",CAMKK beta  ; SmMLCK ; CHK2 ; CK1 gamma 2 ; IKK epsilon  ; TBK1 ; PIM3 ; SRPK1 ; MLK1 ; MLK3 ; IGF-1R ; IR ; VEGFR1 ; 

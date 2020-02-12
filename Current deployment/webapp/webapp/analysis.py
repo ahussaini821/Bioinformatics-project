@@ -2,16 +2,145 @@
 # TO run and see the plots just type in the terminal "python3 KSEA_analysis_finished.py"
 # "file_path" and "file_location" (in def example) need to be changed so it works on your computers
 # the file used for "File_location" is the kinase_substrate_POHSPHO and is also uploaded on git
-from flask import Flask, render_template
-import pandas as pd
-import numpy as np
 import math
-from bokeh.plotting import figure
-from bokeh.embed import components
-from bokeh.models import Span
+from lib2to3.fixer_util import p2
+from math import pi
+import numpy as np
+import pandas as pd
+from bokeh.command.util import set_single_plot_width_height
+from bokeh.document import Document
+from bokeh.embed import components, file_html
+from bokeh.io import output_file, show
+from bokeh.layouts import column, gridplot
+from bokeh.models import (Circle, ColumnDataSource, Div, Grid, Line,
+                          LinearAxis, Plot, Range1d, Span)
+from bokeh.palettes import Category20c, GnBu3, OrRd3
+from bokeh.plotting import figure, output_file, show
+from bokeh.resources import INLINE
+from bokeh.sampledata.autompg import autompg
+from bokeh.transform import cumsum, jitter
+from bokeh.util.browser import view
+from bokeh.util.string import encode_utf8
 
 #create flask application
+def remove_empty(file_path):
+    df= pd.read_csv(file_path, sep='\t')
+    namelist=df.columns.values.tolist()
+    list_name=[]
+    #print(len(df))
+    for i in namelist:
+        if 'Unnamed'not in i:
+            if '\n'not in i:
+                list_name.append(i)
+    df1=df[list_name]#extract the column
+    temporary= pd.DataFrame()
+    temporary_name=[]
+    list_name2=list_name
+    list_name2.remove("Substrate")
+    list_name2.remove("control_mean")
+    list_name3=[]
+    temporary=df1
+    a=len(temporary)
+    #temporary.replace(to_replace=r'^\s*$',value=np.nan,regex=True,inplace=True)
+    Df=temporary.dropna()#remove empty
+    b=len(Df)
 
+
+
+
+    data1= Df.reset_index(drop=True)
+    rows1 = data1.shape[0]
+    p_value_005 = pd.DataFrame()
+    namelist=data1.columns.values.tolist()
+    list_name=[]
+    #print(len(df))
+    for i in namelist:
+        if 'Unnamed'not in i:
+            if '\n'not in i:
+                list_name.append(i)
+    name=0
+    for i in list_name:
+        if "value" in i:
+            name=i
+
+    for i in range (0, rows1):
+        if data1[name][i] > 0.05:
+            continue
+        else:
+            p_value_005 = pd.concat([p_value_005, data1.iloc[[i],:]], axis = 0, ignore_index = True)
+    c=len(p_value_005)
+
+
+
+
+    df1=p_value_005
+    rows2 = df1.shape[0]
+    fold_change_005_positive= pd.DataFrame()
+
+    namelist=data1.columns.values.tolist()
+    list_name=[]
+    #print(len(df))
+    for i in namelist:
+        if 'Unnamed'not in i:
+            if '\n'not in i:
+                list_name.append(i)
+    name=''
+    for i in list_name:
+        if 'fold_change' in i:
+            name=i
+    for i in range(0,rows2):
+        if df1[name][i] >1:
+            fold_change_005_positive= pd.concat([fold_change_005_positive, df1.iloc[[i],:]], axis = 0, ignore_index = True)
+        else:
+            pass
+    d=len(fold_change_005_positive)
+    liste=[a,b,c,d]
+    return liste
+
+def element(file_path):
+    #data
+    liste=remove_empty(file_path)
+    a=liste[0]
+    b=liste[1]
+    c=liste[2]
+    d=liste[3]
+    empty=a-b
+    p_more_005=b-c
+    flod_negative=c-d
+
+    #
+#bar
+
+    #
+    category1 = ['Significant fold change', 'Substrate (no empty)', 'All data']
+    category2 = ['Increased phosphorylation', "Decreased phosphorylation","P-value < 0.05","P-value > 0.05","Substrate (no empty)","Substrate (empty)"]
+
+    exports = {'Data' : category1,
+                'Increased phosphorylation':[d,0,0],
+                'Decreased phosphorylation':[flod_negative,0,0],
+            'P-value > 0.05':[0,p_more_005,0],
+                'P-value < 0.05':[0,c,0],
+                'Substrate (no empty)':[0,0,b],
+                'Substrate (empty)':[0,0,a]}
+
+    p2 = figure(y_range=category1, plot_height=350,plot_width=1000,x_range=(0, a+500), title="Upload data summary",
+                    toolbar_location=None)
+
+    p2.hbar_stack(category2, y='Data', height=0.9,color=["green","yellow","black","pink","red","blue"], source=ColumnDataSource(exports),legend_label=[x for x in category2])
+
+
+    p2.y_range.range_padding = 0.1
+    p2.ygrid.grid_line_color = None
+    p2.legend.location = "bottom_right"
+    p2.axis.minor_tick_line_color = None
+    p2.outline_line_color = None
+    #p2.legend.orientation = "horizontal"
+    p2.xaxis.axis_label = "Number of substrates"
+
+    #p = gridplot([[p1, p2]], toolbar_location=None)
+    script_yuting, div_yuting = components(p2)
+
+    return script_yuting, div_yuting
 
 
 #creating volcanoplot
@@ -227,33 +356,3 @@ def bar_plot1(z_score_sig):
     p.yaxis.axis_label = "Z-score"
     #show(p)
     return (p)
-
-# @application.route("/example")
-# def example():
-#     file_path= "/Users/pedromoreno/Downloads/Ipatasertib.tsv"
-#     file_location = "/Users/pedromoreno/Documents/Kinase_Substrate_Dataset.txt"
-#     # making the analysis
-#     KSEA_results= KSEA_analysis(file_path, file_location)
-#     name= KSEA_results.get("inhibitor_name")
-#     #Create the plots
-#
-#     plot = bar_plot(KSEA_results.get("z_score"))
-#     plot1 = bar_plot1(KSEA_results.get("z_score_sig"))
-#     plot3 = volcano(file_path)
-#     #calculating how many susbstrates coul not match a kinase
-#     Substrates_with_no_kinases = KSEA_results.get("df_all_SUBSTRATES_NO_KINASE")
-#     amount = Substrates_with_no_kinases["control_mean"].count()
-#     #volcano plot
-#
-#     kinase_table= KSEA_results.get("z_score")
-#
-#
-#
-#     # Embed plot into HTML via Flask Render
-#     script, div = components(plot)
-#     script1, div1 = components(plot1)
-#     script2, div2 = components(plot3)
-#
-#     return render_template("results.html", script=script, div=div, script1=script1, div1=div1, amount = amount,
-#                            name= name, kinase_table=kinase_table, Substrates_with_no_kinases = Substrates_with_no_kinases,
-#                            script2=script2, div2=div2)
