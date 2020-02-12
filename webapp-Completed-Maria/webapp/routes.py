@@ -5,17 +5,17 @@ from flask import render_template, request, redirect, url_for, send_file, send_f
 from werkzeug.utils import secure_filename
 from webapp.dataAccess import searchProtein, searchGene, searchSubstrate, inhibitor
 from webapp.dataAccess import characteristics, domains, targets, sequence, targetsKAccession, inhibitorAccession
-from webapp.KSEA_analysis import KSEA_analysis, bar_plot, bar_plot1, volcano, components
+#from webapp.KSEA_analysis import KSEA_analysis, bar_plot, bar_plot1, volcano, components
 
 
 ALLOWED_EXTENSIONS = {'tsv'}
 """[summary]
-    Function to check if the file being uploaded is valid or not? 
+    Function to check if the file being uploaded is valid or not?
     It should be one of the files from extension set to process further.
-    
+
     Arguments:
         filename {[str]} -- Name of the file being uploaded to the server.
-    
+
     Returns:
         [boolean] -- If the file is valid or not?
 """
@@ -26,10 +26,10 @@ def allowed_file(filename):
 
 """[summary]
     Route definition for index page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- The template for index page.
 """
@@ -48,10 +48,10 @@ def index():
 
 """[summary]
     Route definition for Search Results page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- Based upon the search category, different templates are being rendered.
             For Kianese and Gene search -- searchresults.html is rendered with related data.
@@ -71,8 +71,8 @@ def searchResults():
                 searchString = value
             if key == "selectSearchCategory":
                 searchCategory = value
-    
-    # Based on the category, query database and render the results on template 
+
+    # Based on the category, query database and render the results on template
     if searchCategory == "1":
         hkinase, dkinase = searchProtein(searchString.upper())
         return render_template('searchresults.html', title='Kinase Details', header=hkinase, data=dkinase, search=searchString)
@@ -89,10 +89,10 @@ def searchResults():
 
 """[summary]
     Route definition for File Upload page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- fileupload.html with error message if any, else kActivityAnalysis,html.
 """
@@ -127,10 +127,10 @@ def kActivityFileUpload():
 
 """[summary]
     Route definition for Kinase Activity Analysis page in web application.
-    
+
     Arguments:
         filename [{str}] -- The Complete path of the file at server.
-    
+
     Returns:
         [render_template] -- kactivityanalysis.html with the graphs and table.
 """
@@ -170,10 +170,10 @@ def kActivityAnalysis(filename):
 
 """[summary]
     Route definition for Protein Details page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- protein.html with data to be displayed in each tab.
             hcharacteristics, dcharacteristics  - Characteristics Tab - Selected by default
@@ -192,7 +192,7 @@ def protein():
     if request.args :
         searchString =  request.args['searchString']
         accession = request.args['accession']
-    
+
     # Build up the variables to be passed to protein.html for details
     hcharacteristics, dcharacteristics = characteristics(accession)
     hdomains, ddomains = domains(accession)
@@ -214,10 +214,10 @@ def protein():
 
 """[summary]
     Route definition for Inhibitor Details page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- inhibitor.html with data to be displayed.
 """
@@ -241,10 +241,10 @@ def inhibitorDetails():
 
 """[summary]
     Route definition for Substrate Details page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- substrate.html with data to be displayed in each tab.
             hcharacteristics, dcharacteristics  - Characteristics Tab - Selected by default
@@ -277,10 +277,10 @@ def substrate():
 
 """[summary]
     Route definition for Genome Browser page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- chromosomes.html with data to be displayed.
 """
@@ -297,10 +297,10 @@ def genomeBrowser():
 
 """[summary]
     Route definition for Chromosome Details page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- chromosome<number>.html with data to be displayed.
 """
@@ -317,10 +317,10 @@ def genomeDetails():
 
 """[summary]
     Route definition for About Us page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- about.html with data to be displayed.
 """
@@ -332,14 +332,14 @@ def about():
 
 """[summary]
     Route definition for About Us page in web application.
-    
+
     Arguments:
         NA
-    
+
     Returns:
         [render_template] -- about.html with data to be displayed.
 """
 @app.route('/contact')
 def contact():
-    
+
     return render_template('contact.html', title='Contact Us')
