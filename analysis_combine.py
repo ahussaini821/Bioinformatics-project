@@ -131,10 +131,10 @@ def element(file_path):
                 'Substrate (no empty)':[0,0,b],
                 'Substrate (empty)':[0,0,a]}
 
-    p2 = figure(y_range=category1, plot_height=350,plot_width=1600,x_range=(0, a+500), title="Upload data summary",
+    p2 = figure(y_range=category1, plot_height=350,plot_width=1300,x_range=(0, a), title="Upload data summary",
                     toolbar_location=None)
 
-    p2.hbar_stack(category2, y='Data', height=0.9,color=["green","yellow","black","pink","red","blue"], source=ColumnDataSource(exports),legend_label=[x for x in category2])
+    p2.hbar_stack(category2, y='Data', height=0.9,color=["green","yellow","black","pink","red","gray"], source=ColumnDataSource(exports),legend_label=[x for x in category2])
 
 
     p2.y_range.range_padding = 0.1
@@ -372,8 +372,8 @@ def bar_plot1(z_score_sig):
 
 @app.route("/example")
 def example():
-    file_path="az20.tsv"
-    file_location = "kinase_substrate_PHOSPHO.txt"
+    file_path="/Users/pedromoreno/Documents/Bioinformatic group project/analysis/az20.tsv"
+    file_location = "/Users/pedromoreno/Documents/Kinase_Substrate_Dataset.txt"
 
 ############my code
 
