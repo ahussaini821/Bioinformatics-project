@@ -6,16 +6,13 @@ from webapp.dataAccess import searchProtein, characteristics, domains, targets, 
 from webapp.dataAccess import get_characteristics, get_domains, get_targets, get_phosphosites, get_names, get_inhibitors, is_kinase, is_substrate
 from webapp.dataAccess import get_inhibitors_cnumber, get_inhibitors_info, divider, get_sequence
 from werkzeug.utils import secure_filename
-#from webapp.analysis import KSEA_analysis, bar_plot, bar_plot1
-import math
-import bokeh
-import bokeh.plotting
-from bokeh.plotting import figure , output_file, show
-from bokeh.embed import components
-import pandas
-import statsmodels
-import statsmodels.stats.multitest
+from webapp.analysis import KSEA_analysis, bar_plot, bar_plot1, volcano, normpdf
+import pandas as pd
 import numpy as np
+import math
+from bokeh.plotting import figure
+from bokeh.embed import components
+from bokeh.models import Span
 
 @application.route('/')
 
@@ -53,7 +50,7 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('results',
                                     filename=filename))
     return render_template('uploads.html', title="Kinase activity analysis", filename=filename)
@@ -61,20 +58,32 @@ def upload_file():
 @application.route('/results/<filename>', methods=['GET', 'POST'])
 def results(filename):
     #filename = ''
-    file_path = "/webapp/cache/" + filename
-    file_location = "/webapp/cache/kinase_substrate_PHOSPHO.tsv"
-    # KSEA_results= KSEA_analysis(file_path, file_location)
-    #
-    # #Create the plots
-    # plot = bar_plot(KSEA_results.get("z_score"))
-    # plot1 = bar_plot1(KSEA_results.get("z_score_sig"))
-    # #calculating how many susbstrates coul not match a kinase
-    # ff = KSEA_results.get("df_all_SUBSTRATES_NO_KINASE")
-    # amount = ff["control_mean"].count()
-    # # Embed plot into HTML via Flask Render
-    # script, div = components(plot)
-    # script1, div1 = components(plot1)
-    return render_template("results.html", script=script, div=div, script1=script1, div1=div1, amount = amount)
+    file_path = 'webapp/cache/' + filename
+    file_location = 'webapp/cache/kinase_substrate_PHOSPHO.tsv'
+    KSEA_results= KSEA_analysis(file_path, file_location)
+    name= KSEA_results.get("inhibitor_name")
+    #Create the plots
+
+    plot = bar_plot(KSEA_results.get("z_score"))
+    plot1 = bar_plot1(KSEA_results.get("z_score_sig"))
+    plot3 = volcano(file_path)
+    #calculating how many susbstrates coul not match a kinase
+    Substrates_with_no_kinases = KSEA_results.get("df_all_SUBSTRATES_NO_KINASE")
+    amount = Substrates_with_no_kinases["control_mean"].count()
+    #volcano plot
+
+    kinase_table= KSEA_results.get("z_score")
+
+
+
+    # Embed plot into HTML via Flask Render
+    script, div = components(plot)
+    script1, div1 = components(plot1)
+    script2, div2 = components(plot3)
+
+    return render_template("results.html", script=script, div=div, script1=script1, div1=div1, amount = amount,
+                           name= name, kinase_table=kinase_table, Substrates_with_no_kinases = Substrates_with_no_kinases,
+                           script2=script2, div2=div2)
 # KSEA_results= KSEA_analysis(file_path, file_location)
 #
 # #Create the plots
@@ -108,7 +117,7 @@ def searchResults():
 
     searchString2 = "%" + searchString.upper() + "%"
 
-    conn = create_connection("webapp/db/test3.db")
+    conn = create_connection("webapp/db/kinase.db")
     data = []
 
     if searchCategory == "3":
@@ -164,7 +173,7 @@ def protein():
     hphosphosites = ["Kinase", "Location", "Chromosome", "Start", "End"]
     hinhibitor = ["Inhibitor name", "C Number", "Molecular weight"]
 
-    conn = create_connection("webapp/db/test3.db")
+    conn = create_connection("webapp/db/kinase.db")
 
     searchString = ""
     accession = ""
@@ -189,7 +198,11 @@ def protein():
     targetnames2 = []
     for index,i in enumerate(dtargets):
         targetnames2.append(get_names(conn,i[0]))
-    targetnames = targetnames2[0]
+    try:
+        targetnames = targetnames2[0]
+    except:
+        targetnames = [()]
+
 
 
 
@@ -207,11 +220,11 @@ def protein():
         hsearchProtein=hsearchProtein, dsearchProtein=dnames, \
         htargetsKAccess=htargetsKAccess, dtargetsKAccess=dtargets, searchString=searchString, \
         hphosphosites=hphosphosites, dphosphosites=dphosphosites, \
-        hinhibitor=hinhibitor, dinhibitors=dinhibitors)
+        hinhibitor=hinhibitor, dinhibitors=dinhibitors, accession=accession)
 
 @application.route('/inhibitor')
 def inhibitorDetails():
-    conn = create_connection("webapp/db/test3.db")
+    conn = create_connection("webapp/db/kinase.db")
     searchInhibitor = ""
     if request.args :
         searchInhibitor =  request.args['searchInhibitor']
@@ -244,7 +257,7 @@ def substrate():
     htargets = ['Kinase accession', 'Target accession', 'Location', 'Chromosome', 'Start', 'End', 'Phosphosite position', 'Neighbouring amino sequences']
 
 
-    conn = create_connection("webapp/db/test3.db")
+    conn = create_connection("webapp/db/kinase.db")
 
     searchString = ""
     accession = ""
@@ -261,15 +274,24 @@ def substrate():
 
 
     #hsequence, dsequence = sequence(accession)
+    print("---------------------------")
+    print(dphosphosites)
+    sequence = dsequence[0][1]
+    list_sequence = list(sequence)
+    for i in dphosphosites:
+        curr_res = i[1]
+        curr_pos = curr_res[1:]
 
-    sequence = divider(dsequence[0][1])
+        list_sequence[int(curr_pos)-1] = list_sequence[int(curr_pos)-1].lower()
+    sequence = ''.join(list_sequence)
+    sequence = divider(sequence)
 
     return render_template('substrate.html', title='Substrate Details', \
         htargets=htargets, dtargets=dtargets, \
         hsequence=hsequence, dsequence=dsequence, sequence=sequence, \
         hsearchProtein=hsearchProtein, dsearchProtein=dnames, \
         htargetsKAccess=htargetsKAccess, dtargetsKAccess=dtargets, searchString=searchString, \
-        hphosphosites=hphosphosites, dphosphosites=dphosphosites)
+        hphosphosites=hphosphosites, dphosphosites=dphosphosites, accession=accession)
 
 @application.route('/chromosomedetails')
 def genomeDetails():

@@ -3,11 +3,18 @@
 <!doctype html>
     <title>Upload new File</title>
     <h1>Upload a '.tsv' file for Kinase activity analysis </h1>
+    <p> Files need to contain 1 inhibitor only and must be in tsv format </p>
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
       <input type=submit value=Upload>
 
+
     </form>
+<br>
+<p> An example of a possible format of the table can be found here:</p>
+<img class="card-img-top" src="../static/img/table_example.png" alt="Card image cap" height="100" weidth="200">
+<br>
+<p>XXXXX represents the name of the inhibitor and YYY represents the protein or gene name of the substrate</p>
 
 
 
