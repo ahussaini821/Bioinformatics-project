@@ -1,3 +1,8 @@
+"""
+Script to get the information of protein and gene names for each kinase using
+scraper module
+"""
+
 import scraper
 import pandas as pd
 import re
@@ -29,7 +34,7 @@ for index,name in enumerate(name_list):
     other_names = other_names_match.findall(name_str)
 
     for i in other_names:
-        
+
         name_info = name_info.append({'Kinase': kinase_list[index], 'Other names': i}, ignore_index=True)
 
 print(name_info)

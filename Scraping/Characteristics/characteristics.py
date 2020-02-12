@@ -1,3 +1,8 @@
+"""
+A script to join all the relevant information into one dataframe and output that
+as "characteristics.csv" which is the final characteristics table
+"""
+
 import pandas as pd
 
 kinase_list = pd.read_csv("kinase_list.csv")

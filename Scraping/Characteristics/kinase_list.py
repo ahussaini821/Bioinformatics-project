@@ -1,3 +1,7 @@
+"""
+Script to generate the list of human kinases from the text file from uniprot
+"""
+
 import re
 import pandas as pd
 

@@ -1,3 +1,7 @@
+"""
+Script to get the uniprot links for each kinase
+"""
+
 import pandas as pd
 import re
 

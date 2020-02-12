@@ -1,3 +1,8 @@
+"""
+Script to get the information of subcellular location for each kinase using
+scraper module
+"""
+
 import pandas as pd
 import urllib
 import urllib.request
@@ -6,7 +11,11 @@ import re
 df = pd.read_csv("kinase_list.csv")
 poss_subcell = pd.read_csv("subcell_locations.csv")
 kinase_list = df["Accession Code"]
+
+# A list of the possible subcellular location
+# This is necessary to avoid repeats and non-relevant information
 locations_list = poss_subcell["Alias"]
+
 subcell_info = pd.DataFrame(columns=['Kinase Accession', 'Subcellular Location'])
 subcell_list = []
 
@@ -42,7 +51,7 @@ for kinase in kinase_list:
                 # are repeats
                 locations_list.remove(location)
                 curr_locations += location + '; '
-    # Gets rid of last ;
+    # Gets rid of last ';' character
     curr_locations = curr_locations[:-1]
     subcell_info = subcell_info.append({'Kinase Accession': kinase, 'Subcellular Location': curr_locations}, ignore_index=True)
 

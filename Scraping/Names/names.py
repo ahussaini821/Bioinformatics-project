@@ -1,3 +1,8 @@
+"""
+Script to generate names file containting main protein and gene name
+as well as the various aliases
+"""
+
 import pandas as pd
 from bs4 import BeautifulSoup
 import urllib

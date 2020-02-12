@@ -1,31 +1,11 @@
+"""
+A group of functions to get information from ensembl such as DNA, RNA and protein
+sequences
+"""
+
 import requests, sys
 
-# def rna(id):
-#     done = False
-#     server = "https://rest.ensembl.org"
-#     ext = "/sequence/id/" + id + "?content-type=text/plain;mask_feature=1"
-#     while not done:
-#         try:
-#             r = requests.get(server+ext, headers={ "Content-Type" : "text/plain"})
-#             done = True
-#         except:
-#             continue
-#
-#
-#     if not r.ok:
-#       r.raise_for_status()
-#       sys.exit()
-#
-#     sequence = r.text
-#     #print(r.text)
-#     rna_list = []
-#     for base in sequence:
-#         if base.isupper():
-#             rna_list.append(base)
-#     for index,base in enumerate(rna_list):
-#         if base == "T":
-#             rna_list[index] = "U"
-#     return ''.join(rna_list)
+
 
 def rna(id):
     done = False
@@ -95,6 +75,7 @@ def position(id):
     server = "https://rest.ensembl.org"
     ext = "/sequence/id/" + id + "?type=genomic"
     fail_count = 0
+    failed = False
     while not done:
         try:
             r = requests.get(server+ext, headers={ "Content-Type" : "text/x-fasta"})
@@ -104,12 +85,13 @@ def position(id):
             print("Failed connection (ensembl). Retrying...")
             if fail_count >= 10:
                 print("This ID failed for position: ", id)
+                failed = True
                 done = True
             continue
-
+    if failed:
+        return False
     if not r.ok:
-      r.raise_for_status()
-      sys.exit()
+      return False
 
     sequence = r.text
     first_line_list = []

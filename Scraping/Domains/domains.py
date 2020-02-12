@@ -1,3 +1,9 @@
+"""
+Script to get the information of domains and their positions for each kinase
+without the scraper module
+For this we used the XML pages from EBI and BeautifulSoup
+"""
+
 from bs4 import BeautifulSoup
 import urllib
 import urllib.request

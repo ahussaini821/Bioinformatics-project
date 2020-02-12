@@ -1,3 +1,8 @@
+"""
+Script to get information on all the targets such as phosphosites
+and locations of phosphoprylation both protein location and genomic location
+"""
+
 from bs4 import BeautifulSoup
 import urllib
 import urllib.request

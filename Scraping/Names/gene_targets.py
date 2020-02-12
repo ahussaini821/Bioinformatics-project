@@ -1,3 +1,7 @@
+"""
+Script to get the gene names for each kinase using scraper module
+"""
+
 import urllib
 import urllib.request
 import re

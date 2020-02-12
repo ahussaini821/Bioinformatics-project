@@ -1,3 +1,7 @@
+"""
+Script to get the information of gene names for each kinase using scraper module
+"""
+
 import scraper
 import pandas as pd
 import re
