@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Results for '{{search}}' </h1>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <!-- <th scope="col">#</th> -->
+            <th scope="col">{{header[0]}}</th>
+            <th scope="col">{{header[1]}}</th>
+            <th scope="col">{{header[4]}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in data %}
+          <tr>
+            <!-- <td>{{loop.index}}</td> -->
+            <td>{{row[0]}}</td>
+            <td><a href="{{ url_for('inhibitorDetails') }}?searchInhibitor={{row[1]}}">{{row[1]}}</a></td>
+            <td>{{row[4]}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+
+
+    <!-- <a class="btn btn-outline-secondary" href="{{ url_for('index') }}" role="button">Home</a> -->
+{% endblock %}
